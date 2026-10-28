@@ -1,0 +1,6 @@
+{
+  "name": "KrishiMitra AI - Smart Farming Assistant",
+  "description": "Comprehensive AI-powered agriculture platform for farmers with crop disease detection, mandi prices, voice assistant, pump monitoring, crop recommendations, government schemes, and marketplace.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

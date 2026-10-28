@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KrishiMitra AI Pro - Voice & Chat Farming Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{height:100vh;background:linear-gradient(135deg,#04140d,#06281a);display:flex;justify-content:center;align-items:center;color:white;overflow:hidden;}
+.bg{position:absolute;width:100%;height:100%;z-index:-1;overflow:hidden;}
+.bg span{position:absolute;width:300px;height:300px;border-radius:50%;filter:blur(90px);animation:move 10s infinite alternate;}
+.bg span:nth-child(1){background:#00ff8840;top:-50px;left:-80px;}
+.bg span:nth-child(2){background:#00ffaa30;bottom:-80px;right:-80px;animation-duration:12s;}
+@keyframes move{from{transform:translateY(0px);}to{transform:translateY(60px);}}
+.container{width:95%;max-width:1100px;height:92vh;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:25px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);}
+.top{padding:16px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.2);}
+.logo{display:flex;align-items:center;gap:12px;font-weight:600;}
+.logo i{color:#00ff88;font-size:24px;}
+.logo h2{font-size:20px;letter-spacing:0.5px;}
+.top-actions{display:flex;align-items:center;gap:10px;}
+.lang-toggle{background:rgba(255,255,255,0.1);border:1px solid rgba(0,255,136,0.3);color:white;border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;outline:none;}
+.top-button{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:none;border-radius:12px;background:rgba(255,255,255,0.1);color:white;text-decoration:none;cursor:pointer;font-size:17px;transition:0.2s ease;}
+.top-button:hover{background:rgba(0,255,136,0.25);transform:translateY(-2px);}
+.quick-chips{display:flex;gap:8px;padding:10px 20px;overflow-x:auto;background:rgba(255,255,255,0.02);border-bottom:1px solid rgba(255,255,255,0.05);}
+.chip{padding:6px 14px;border-radius:20px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);color:#d0ffe8;font-size:12px;white-space:nowrap;cursor:pointer;transition:0.2s;}
+.chip:hover{background:rgba(0,255,136,0.2);border-color:#00ff88;}
+.chat{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:15px;}
+.msg{padding:14px 18px;border-radius:18px;max-width:80%;line-height:1.7;animation:fade .3s ease;word-break:break-word;}
+@keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.user{background:linear-gradient(135deg,#00ff88,#00c853);color:#04140d;align-self:flex-end;border-bottom-right-radius:4px;font-weight:500;}
+.ai{background:rgba(255,255,255,0.08);align-self:flex-start;border:1px solid rgba(255,255,255,0.12);border-bottom-left-radius:4px;color:#e8fff3;}
+.ai-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;color:#00ff88;font-weight:600;}
+.voice-state{display:flex;align-items:center;gap:8px;font-size:13px;color:#fffa65;padding:4px 20px;}
+.wave{display:inline-flex;gap:3px;align-items:flex-end;height:14px;}
+.wave-bar{width:3px;background:#00ff88;border-radius:2px;animation:waveAnim 0.6s infinite alternate;}
+.wave-bar:nth-child(2){animation-delay:0.15s;}
+.wave-bar:nth-child(3){animation-delay:0.3s;}
+@keyframes waveAnim{0%{height:4px;}100%{height:14px;}}
+.inputBox{display:flex;padding:15px;gap:10px;border-top:1px solid rgba(255,255,255,0.1);background:rgba(0,0,0,0.25);}
+input{flex:1;padding:14px 20px;border-radius:14px;border:1px solid rgba(255,255,255,0.15);outline:none;background:rgba(255,255,255,0.08);color:white;font-size:15px;}
+input:focus{border-color:#00ff88;}
+button.btn-ctrl{width:54px;height:50px;border:none;border-radius:14px;background:linear-gradient(135deg,#00ff88,#00b562);color:#04140d;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:0.2s;}
+button.btn-ctrl:hover{transform:scale(1.05);box-shadow:0 0 15px rgba(0,255,136,0.4);}
+button.btn-ctrl.listening{background:#ff4d4d;color:white;animation:pulseMic 1s infinite alternate;}
+@keyframes pulseMic{0%{box-shadow:0 0 10px #ff4d4d;}100%{box-shadow:0 0 25px #ff4d4d;}}
+</style>
+</head>
+<body>
+<div class="bg"><span></span><span></span></div>
+<div class="container">
+  <div class="top">
+    <div class="logo">
+      <i class="fa-solid fa-seedling"></i>
+      <h2>KrishiMitra AI Voice Assistant</h2>
+    </div>
+    <div class="top-actions">
+      <select id="langSelect" class="lang-toggle" onchange="changeLanguage()">
+        <option value="en-IN">English (India)</option>
+        <option value="hi-IN">हिन्दी (Hindi)</option>
+        <option value="kn-IN">ಕನ್ನಡ (Kannada)</option>
+        <option value="te-IN">తెలుగు (Telugu)</option>
+        <option value="mr-IN">मराठी (Marathi)</option>
+      </select>
+      <a class="top-button" href="index.html" title="Home Dashboard"><i class="fa-solid fa-house"></i></a>
+      <a class="top-button" href="assistan.html" title="Knowledge Assistant"><i class="fa-solid fa-book-open"></i></a>
+    </div>
+  </div>
+
+  <div class="quick-chips">
+    <span class="chip" onclick="quickAsk('How to increase wheat yield?')">🌾 Wheat Yield Guide</span>
+    <span class="chip" onclick="quickAsk('Best organic fertilizer for vegetables')">🥬 Organic Fertilizers</span>
+    <span class="chip" onclick="quickAsk('How to treat rice stem borer?')">🐛 Rice Pest Solution</span>
+    <span class="chip" onclick="quickAsk('What is drip irrigation water requirement?')">💧 Drip Irrigation</span>
+    <span class="chip" onclick="quickAsk('धान की फसल में यूरिया कब डालना चाहिए?')">🇮🇳 धान उर्वरक समय</span>
+  </div>
+
+  <div class="chat" id="chat">
+    <div class="msg ai">
+      <div class="ai-header"><i class="fa-solid fa-robot"></i> KrishiMitra AI • Ready</div>
+      🌾 <b>Namaste!</b> I am your intelligent farming assistant powered by KrishiMitra AI. You can type or tap the microphone to ask questions in English, Hindi, or regional languages about crops, weather, pest control, fertilizers, or mandi rates.
+    </div>
+  </div>
+
+  <div id="listeningIndicator" class="voice-state" style="display:none;">
+    <div class="wave"><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div></div>
+    <span>Listening to your voice... Speak now!</span>
+  </div>
+
+  <div class="inputBox">
+    <input id="input" placeholder="Ask farming question in English, हिन्दी, etc..." autocomplete="off">
+    <button class="btn-ctrl" id="micBtn" onclick="toggleVoice()" title="Tap to speak"><i class="fa-solid fa-microphone"></i></button>
+    <button class="btn-ctrl" id="sendBtn" onclick="send()" title="Send"><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<script>
+const chat = document.getElementById("chat");
+const input = document.getElementById("input");
+const micBtn = document.getElementById("micBtn");
+const listeningIndicator = document.getElementById("listeningIndicator");
+const langSelect = document.getElementById("langSelect");
+
+let isListening = false;
+let recognition = null;
+let chatHistory = [];
+
+input.addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    send();
+  }
+});
+
+function changeLanguage() {
+  if (recognition) {
+    recognition.lang = langSelect.value;
+  }
+}
+
+function appendMessage(role, text) {
+  const isAi = role === 'ai';
+  const formatted = text
+    .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+    .replace(/\*(.*?)\*/g, '<i>$1</i>')
+    .replace(/\n/g, '<br>');
+
+  const html = isAi 
+    ? `<div class="msg ai"><div class="ai-header"><i class="fa-solid fa-robot"></i> KrishiMitra AI</div>${formatted}</div>`
+    : `<div class="msg user">${formatted}</div>`;
+
+  chat.innerHTML += html;
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function speak(text) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  // Strip markdown symbols and emojis for smoother speech
+  const clean = text.replace(/[*_#`]/g, '').replace(/[🌾🌱🥬💧🐛🇮🇳💡✅⚠️]/g, '');
+  const msg = new SpeechSynthesisUtterance(clean);
+  msg.rate = 1.0;
+  msg.pitch = 1.0;
+  msg.lang = langSelect.value || "en-IN";
+  
+  const voices = window.speechSynthesis.getVoices();
+  const indianVoice = voices.find(v => v.lang.includes("IN") || /Hindi|Indian|Kore/i.test(v.name));
+  if (indianVoice) msg.voice = indianVoice;
+  
+  window.speechSynthesis.speak(msg);
+}
+
+async function send() {
+  const text = input.value.trim();
+  if (!text) return;
+
+  appendMessage("user", text);
+  input.value = "";
+  
+  const loadingId = 'loading-' + Date.now();
+  chat.innerHTML += `<div class="msg ai" id="${loadingId}"><div class="ai-header"><i class="fa-solid fa-spinner fa-spin"></i> KrishiMitra AI</div>Thinking...</div>`;
+  chat.scrollTop = chat.scrollHeight;
+
+  try {
+    const res = await fetch('/api/gemini/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        prompt: text,
+        language: langSelect.value,
+        history: chatHistory.slice(-6)
+      })
+    });
+    const data = await res.json();
+    const loadingElem = document.getElementById(loadingId);
+    if (loadingElem) loadingElem.remove();
+
+    const reply = data.reply || "🌾 I received your question. Check irrigation schedules and crop nutrition for optimal results.";
+    appendMessage("ai", reply);
+    chatHistory.push({ role: 'user', text });
+    chatHistory.push({ role: 'model', text: reply });
+    speak(reply);
+  } catch (err) {
+    console.error(err);
+    const loadingElem = document.getElementById(loadingId);
+    if (loadingElem) loadingElem.remove();
+    appendMessage("ai", "🌾 KrishiMitra AI suggestion: Maintain timely irrigation, balanced NPK fertilizer split, and monitor for leaf discoloration.");
+  }
+}
+
+function quickAsk(q) {
+  input.value = q;
+  send();
+}
+
+function initSpeech() {
+  const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!Speech) return null;
+  const rec = new Speech();
+  rec.lang = langSelect.value;
+  rec.continuous = false;
+  rec.interimResults = false;
+
+  rec.onresult = (e) => {
+    const transcript = e.results[0][0].transcript;
+    input.value = transcript;
+    stopVoice();
+    send();
+  };
+
+  rec.onerror = (e) => {
+    console.warn("Speech error:", e);
+    stopVoice();
+  };
+
+  rec.onend = () => {
+    stopVoice();
+  };
+
+  return rec;
+}
+
+function toggleVoice() {
+  if (isListening) {
+    stopVoice();
+  } else {
+    startVoice();
+  }
+}
+
+function startVoice() {
+  if (!recognition) recognition = initSpeech();
+  if (!recognition) {
+    alert("Speech recognition is not supported in this browser. Please type your message.");
+    return;
+  }
+  try {
+    recognition.lang = langSelect.value;
+    recognition.start();
+    isListening = true;
+    micBtn.classList.add("listening");
+    listeningIndicator.style.display = "flex";
+  } catch (err) {
+    console.warn("Start voice error:", err);
+    stopVoice();
+  }
+}
+
+function stopVoice() {
+  isListening = false;
+  micBtn.classList.remove("listening");
+  listeningIndicator.style.display = "none";
+  if (recognition) {
+    try { recognition.stop(); } catch(e){}
+  }
+}
+</script>
+</body>
+</html>

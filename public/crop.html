@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiMitra AI - Smart Crop Recommendation</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{min-height:100vh;background:linear-gradient(to bottom,#edf7ed,#d8f3dc,#b7e4c7);overflow-x:hidden;color:#1b4332;}
+.bg{position:fixed;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:-1;}
+.bg span{position:absolute;display:block;font-size:40px;opacity:0.12;bottom:-120px;animation:leafMove 18s linear infinite;}
+.bg span:nth-child(1){left:10%;animation-delay:0s;}
+.bg span:nth-child(2){left:25%;animation-delay:3s;}
+.bg span:nth-child(3){left:45%;animation-delay:5s;}
+.bg span:nth-child(4){left:65%;animation-delay:2s;}
+.bg span:nth-child(5){left:80%;animation-delay:7s;}
+.bg span:nth-child(6){left:92%;animation-delay:4s;}
+@keyframes leafMove{0%{transform:translateY(0) rotate(0deg);opacity:0;}20%{opacity:0.15;}100%{transform:translateY(-1100px) rotate(360deg);opacity:0;}}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:15px 25px;background:rgba(255,255,255,0.6);backdrop-filter:blur(8px);border-bottom:1px solid rgba(45,106,79,0.1);}
+.nav a{color:#1b5e20;text-decoration:none;font-weight:600;}
+header{padding:30px 20px 10px;text-align:center;}
+header h1{font-size:44px;font-weight:700;color:#1b5e20;}
+header p{margin-top:8px;font-size:16px;color:#2d6a4f;}
+.container{width:92%;max-width:900px;margin:20px auto;background:rgba(255,255,255,0.8);backdrop-filter:blur(10px);padding:35px;border-radius:30px;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.inputGroup{margin-bottom:18px;}
+label{display:block;margin-bottom:8px;font-size:14px;font-weight:600;color:#2d6a4f;}
+select,input{width:100%;padding:14px 16px;border:none;outline:none;border-radius:14px;font-size:15px;background:white;color:#1b4332;border:2px solid transparent;box-shadow:0 4px 10px rgba(0,0,0,0.06);transition:0.3s;}
+select:focus,input:focus{border:2px solid #52b788;transform:scale(1.01);}
+.btn{width:100%;padding:16px;border:none;border-radius:16px;font-size:17px;font-weight:700;cursor:pointer;background:linear-gradient(to right,#2d6a4f,#52b788);color:white;transition:0.3s;box-shadow:0 5px 15px rgba(45,106,79,0.3);display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(45,106,79,0.4);}
+.resultBox{margin-top:30px;}
+.resultTitle{text-align:center;font-size:26px;margin-bottom:20px;color:#1b5e20;}
+.cropGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+.cropCard{background:white;padding:22px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,0.06);transition:0.3s;border:1px solid #d8f3dc;}
+.cropCard:hover{transform:translateY(-6px);border-color:#52b788;}
+.cropCard h3{font-size:22px;margin-bottom:10px;color:#2d6a4f;}
+.cropCard p{margin:8px 0;font-size:14px;color:#444;}
+.bar{width:100%;height:10px;background:#d8f3dc;border-radius:20px;overflow:hidden;margin:8px 0 12px;}
+.fill{height:100%;background:linear-gradient(to right,#40916c,#52b788);border-radius:20px;transition:width 1s ease;}
+.reason{margin-top:22px;padding:18px;border-radius:16px;background:#ecfdf3;color:#2d6a4f;line-height:1.7;font-size:14px;border-left:5px solid #52b788;}
+.alert{margin-top:16px;padding:16px;border-radius:16px;background:#ffe5e5;color:#c1121f;font-weight:600;border-left:5px solid #e63946;font-size:14px;}
+.ai-detail-box{margin-top:20px;background:#ffffff;padding:20px;border-radius:18px;border:1px solid #a7d7b8;}
+.back{display:inline-flex;align-items:center;gap:8px;margin:30px auto;padding:12px 24px;border-radius:16px;background:linear-gradient(to right,#40916c,#52b788);text-decoration:none;color:white;font-weight:600;transition:0.3s;}
+.back:hover{transform:scale(1.05);}
+@media(max-width:768px){.grid-2{grid-template-columns:1fr;}.container{padding:22px;}}
+</style>
+</head>
+<body>
+<div class="bg">
+  <span>🌿</span><span>🍃</span><span>🌾</span><span>🌱</span><span>🍀</span><span>🌿</span>
+</div>
+
+<div class="nav">
+  <span style="font-weight:700;color:#1b5e20;">🌱 KrishiMitra Crop Advisor</span>
+  <div>
+    <a href="crop_production.html" style="margin-right:15px;"><i class="fa-solid fa-book"></i> Production Guide</a>
+    <a href="index.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+  </div>
+</div>
+
+<header>
+  <h1>🌱 Smart Crop Recommendation</h1>
+  <p>Scientific agro-climatic matching based on soil chemistry, state climate, season, and temperature</p>
+</header>
+
+<div class="container">
+  <div class="grid-2">
+    <div class="inputGroup">
+      <label><i class="fa-solid fa-location-dot"></i> Select State / Region</label>
+      <select id="state">
+        <option>Karnataka</option>
+        <option>Maharashtra</option>
+        <option>Telangana</option>
+        <option>Punjab</option>
+        <option>Madhya Pradesh</option>
+        <option>Uttar Pradesh</option>
+        <option>Tamil Nadu</option>
+      </select>
+    </div>
+
+    <div class="inputGroup">
+      <label><i class="fa-solid fa-mountain"></i> Select Soil Type</label>
+      <select id="soil">
+        <option>Black Soil (Regur)</option>
+        <option>Red & Laterite Soil</option>
+        <option>Alluvial Loamy Soil</option>
+        <option>Sandy Loam</option>
+        <option>Clayey Moist Soil</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="inputGroup">
+      <label><i class="fa-solid fa-cloud-sun"></i> Cultivation Season</label>
+      <select id="season">
+        <option>Monsoon (Kharif)</option>
+        <option>Winter (Rabi)</option>
+        <option>Summer (Zaid)</option>
+      </select>
+    </div>
+
+    <div class="inputGroup">
+      <label><i class="fa-solid fa-temperature-half"></i> Ambient Temperature (°C)</label>
+      <input type="number" id="temp" placeholder="e.g. 28" min="5" max="50" value="28">
+    </div>
+  </div>
+
+  <button class="btn" onclick="recommend()">
+    <i class="fa-solid fa-wand-magic-sparkles"></i> Compute Top Crop Matches
+  </button>
+
+  <div id="result" class="resultBox"></div>
+</div>
+
+<center>
+  <a href="index.html" class="back">
+    <i class="fa-solid fa-arrow-left"></i> Back to Home Dashboard
+  </a>
+</center>
+
+<script>
+function recommend(){
+  const state = document.getElementById("state").value;
+  const soil = document.getElementById("soil").value;
+  const season = document.getElementById("season").value;
+  const temp = Number(document.getElementById("temp").value);
+  const result = document.getElementById("result");
+
+  if(!temp || isNaN(temp)){
+    result.innerHTML = `<div class="alert">⚠️ Please enter a valid temperature in °C!</div>`;
+    return;
+  }
+
+  const crops = [
+    { name: "Cotton (Bt Hybrid) 🌿", score: 0, water: "Medium (500mm)", duration: "150-180 Days", tip: "Thrives in deep black cotton soils with good drainage." },
+    { name: "Finger Millet (Ragi) 🌾", score: 0, water: "Low (350mm)", duration: "90-100 Days", tip: "Super drought resistant, ideal for red loams." },
+    { name: "Paddy Rice (Basmati/IR64) 🍚", score: 0, water: "High (1200mm)", duration: "120-140 Days", tip: "Best for clayey alluvial soils with continuous moisture." },
+    { name: "Sugarcane 🍬", score: 0, water: "High (1500mm)", duration: "12-14 Months", tip: "Requires rich loam and reliable perennial irrigation." },
+    { name: "Hybrid Maize (Corn) 🌽", score: 0, water: "Medium (550mm)", duration: "95-115 Days", tip: "Fast turnaround grain with strong industrial and poultry feed demand." },
+    { name: "Pearl Millet (Bajra) 🌾", score: 0, water: "Very Low (300mm)", duration: "80-85 Days", tip: "Exceptional heat tolerance, perfect for sandy or dry soils." },
+    { name: "Wheat (Sharbati) 🌾", score: 0, water: "Medium (450mm)", duration: "120-130 Days", tip: "Requires cool winters and well-drained loams." }
+  ];
+
+  // Scoring matrix
+  crops.forEach(crop => {
+    // State weights
+    if(state === "Karnataka" && (crop.name.includes("Ragi") || crop.name.includes("Maize"))) crop.score += 4;
+    if(state === "Maharashtra" && (crop.name.includes("Sugarcane") || crop.name.includes("Cotton"))) crop.score += 4;
+    if(state === "Telangana" && (crop.name.includes("Rice") || crop.name.includes("Cotton"))) crop.score += 4;
+    if(state === "Punjab" && (crop.name.includes("Wheat") || crop.name.includes("Rice"))) crop.score += 5;
+    if(state === "Madhya Pradesh" && crop.name.includes("Wheat")) crop.score += 4;
+
+    // Soil weights
+    if(soil.includes("Black") && crop.name.includes("Cotton")) crop.score += 4;
+    if(soil.includes("Red") && crop.name.includes("Ragi")) crop.score += 4;
+    if(soil.includes("Alluvial") && (crop.name.includes("Rice") || crop.name.includes("Wheat"))) crop.score += 4;
+    if(soil.includes("Sandy") && crop.name.includes("Bajra")) crop.score += 5;
+
+    // Season weights
+    if(season.includes("Monsoon") && (crop.name.includes("Rice") || crop.name.includes("Cotton") || crop.name.includes("Maize"))) crop.score += 4;
+    if(season.includes("Winter") && crop.name.includes("Wheat")) crop.score += 6;
+    if(season.includes("Summer") && (crop.name.includes("Bajra") || crop.name.includes("Ragi"))) crop.score += 4;
+
+    // Temperature factors
+    if(temp > 35 && (crop.name.includes("Bajra") || crop.name.includes("Ragi"))) crop.score += 4;
+    if(temp < 25 && crop.name.includes("Wheat")) crop.score += 4;
+    if(temp >= 24 && temp <= 32 && crop.name.includes("Maize")) crop.score += 3;
+  });
+
+  crops.sort((a,b) => b.score - a.score);
+  const top3 = crops.slice(0, 3);
+  const badges = ["🥇 Primary Recommendation", "🥈 Secondary Option", "🥉 Alternative Crop"];
+
+  let html = `
+    <h2 class="resultTitle">📊 Ranked Crop Cultivation Recommendations</h2>
+    <div class="cropGrid">
+  `;
+
+  top3.forEach((c, i) => {
+    const confidence = Math.min(96, Math.max(70, c.score * 7));
+    html += `
+      <div class="cropCard">
+        <div style="font-size:12px;color:#2e7d32;font-weight:700;margin-bottom:4px;">${badges[i]}</div>
+        <h3>${c.name}</h3>
+        <p>📈 <b>Match Score:</b> ${confidence}%</p>
+        <div class="bar"><div class="fill" style="width:${confidence}%"></div></div>
+        <p>💧 <b>Water Need:</b> ${c.water}</p>
+        <p>⏳ <b>Duration:</b> ${c.duration}</p>
+        <p style="font-size:13px;color:#555;margin-top:8px;">💡 ${c.tip}</p>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+
+  html += `
+    <div class="reason">
+      🧠 <b>Agronomist Analysis:</b> For <b>${state}</b> with <b>${soil}</b> during <b>${season}</b> at <b>${temp}°C</b>, <b>${top3[0].name.split(' ')[0]}</b> provides optimal thermal-moisture efficiency and highest profitability. Ensure seed treatment with Trichoderma prior to sowing.
+    </div>
+  `;
+
+  if(temp > 38){
+    html += `
+      <div class="alert">
+        🔥 <b>Heat Wave Advisory:</b> High ambient temperature detected (${temp}°C). Adopt mulching, light night irrigations, and prioritize drought-tolerant varieties to minimize evapotranspiration stress.
+      </div>
+    `;
+  }
+
+  result.innerHTML = html;
+}
+
+recommend();
+</script>
+</body>
+</html>

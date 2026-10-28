@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiMitra AI - Government Farmer Schemes & Subsidies</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:linear-gradient(to bottom,#061a10,#0b291a,#0e3824);min-height:100vh;overflow-x:hidden;color:#e8f5e9;}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,255,136,0.15);}
+.brand{font-size:20px;font-weight:700;color:#00ff88;text-decoration:none;display:flex;align-items:center;gap:10px;}
+.nav a.home-btn{color:white;text-decoration:none;font-weight:600;padding:8px 16px;border-radius:14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);font-size:13px;}
+.nav a.home-btn:hover{background:rgba(0,255,136,0.2);color:#00ff88;}
+header{padding:30px 20px 10px;text-align:center;}
+header h1{font-size:38px;font-weight:800;color:#00ff88;}
+header p{margin-top:6px;font-size:15px;color:#a7f3d0;}
+.searchBox{display:flex;justify-content:center;align-items:center;gap:12px;margin:20px auto 25px;max-width:550px;}
+.searchBox input{width:100%;padding:13px 22px;border:1px solid rgba(0,255,136,0.3);outline:none;border-radius:30px;background:rgba(0,0,0,0.4);color:white;font-size:14px;transition:0.3s;}
+.searchBox input:focus{border-color:#00ff88;box-shadow:0 0 15px rgba(0,255,136,0.3);}
+.tabs{display:flex;justify-content:center;gap:10px;margin-bottom:25px;}
+.tab-btn{padding:8px 22px;border-radius:20px;border:1px solid rgba(0,255,136,0.3);background:rgba(0,0,0,0.3);color:#a7f3d0;font-weight:600;font-size:13px;cursor:pointer;transition:0.2s;}
+.tab-btn.active{background:#00ff88;color:#042214;border-color:#00ff88;}
+.schemeContainer{width:92%;max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;padding-bottom:40px;}
+.scheme{background:rgba(255,255,255,0.05);border:1px solid rgba(0,255,136,0.15);backdrop-filter:blur(10px);padding:24px;border-radius:24px;display:flex;flex-direction:column;justify-content:space-between;transition:0.3s;}
+.scheme:hover{border-color:#00ff88;transform:translateY(-4px);}
+.scheme h2{font-size:20px;margin-bottom:8px;color:white;display:flex;align-items:center;gap:8px;}
+.scheme p{font-size:13px;line-height:1.7;margin-bottom:8px;color:#c8e6c9;}
+.benefit{font-weight:600;color:#00ff88;font-size:13px;}
+.tag{display:inline-block;margin-top:6px;padding:3px 10px;border-radius:12px;background:rgba(0,255,136,0.15);font-size:11px;font-weight:700;color:#00ff88;width:fit-content;}
+.btnGroup{margin-top:16px;display:flex;gap:10px;}
+.applyBtn{flex:1;padding:11px;border:none;border-radius:12px;background:linear-gradient(135deg,#00ff88,#00b562);color:#042214;font-size:13px;font-weight:700;cursor:pointer;}
+.infoBtn{flex:1;padding:11px;border:1px solid rgba(0,255,136,0.4);border-radius:12px;background:rgba(0,0,0,0.3);color:#a7f3d0;font-size:13px;font-weight:600;cursor:pointer;}
+.modal{display:none;position:fixed;z-index:999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.75);justify-content:center;align-items:center;padding:20px;}
+.modalContent{background:#0c2417;border:1px solid rgba(0,255,136,0.3);width:100%;max-width:440px;padding:30px;border-radius:25px;text-align:center;}
+.modalContent h2{color:#00ff88;margin-bottom:12px;font-size:20px;}
+.modalContent input{width:100%;padding:12px;margin-top:10px;border-radius:12px;border:1px solid rgba(0,255,136,0.3);background:rgba(0,0,0,0.4);color:white;font-size:14px;outline:none;}
+.submitBtn{width:100%;margin-top:16px;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#00ff88,#00b562);color:#042214;font-size:14px;font-weight:700;cursor:pointer;}
+.closeBtn{margin-top:10px;background:none;border:none;color:#ff8a80;cursor:pointer;font-weight:600;font-size:13px;}
+.app-card{background:rgba(255,255,255,0.05);padding:16px;border-radius:16px;margin-bottom:12px;border:1px solid rgba(0,255,136,0.2);display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+</style>
+</head>
+<body>
+<div class="nav">
+  <a href="index.html" class="brand">
+    <i class="fa-solid fa-landmark"></i> KrishiMitra Subsidies
+  </a>
+  <a href="index.html" class="home-btn"><i class="fa-solid fa-house"></i> Dashboard</a>
+</div>
+
+<header>
+  <h1>🏛️ Government Farming Schemes & Tracking</h1>
+  <p>Apply for DBT grants, solar subsidies & crop insurance with live backend status verification</p>
+</header>
+
+<div class="searchBox">
+  <input type="text" id="search" placeholder="Search schemes (e.g. Kisan, Tractor, Solar, Insurance)..." oninput="searchScheme()">
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" id="tabSchemes" onclick="switchTab('schemes')">All Schemes (6)</button>
+  <button class="tab-btn" id="tabApps" onclick="switchTab('apps')">My Submitted Applications (<span id="appCount">0</span>)</button>
+</div>
+
+<!-- Schemes Grid -->
+<div class="schemeContainer" id="schemeContainer">
+  <div class="scheme">
+    <div>
+      <h2>🌾 PM-KISAN Samman Nidhi</h2>
+      <p>Direct cash transfer of ₹6,000 per annum paid in three equal installments of ₹2,000 directly into farmer bank accounts via DBT.</p>
+      <p class="benefit">✅ Guaranteed annual income support for all landholding farmers.</p>
+      <span class="tag">Income Support • Central Govt</span>
+    </div>
+    <div class="btnGroup">
+      <button class="applyBtn" onclick="openApply('PM-KISAN Samman Nidhi')"><i class="fa-solid fa-file-signature"></i> Apply Now</button>
+      <button class="infoBtn" onclick="showInfo('PM-KISAN Samman Nidhi', '₹6,000/yr in 3 installments of ₹2,000 directly deposited to Aadhaar-linked bank accounts.')">Details</button>
+    </div>
+  </div>
+
+  <div class="scheme">
+    <div>
+      <h2>☔ PM Fasal Bima Yojana (PMFBY)</h2>
+      <p>Comprehensive crop insurance coverage against non-preventable natural risks: drought, flood, pests, and cyclones.</p>
+      <p class="benefit">✅ Nominal premium rate (1.5% for Rabi, 2% for Kharif crops).</p>
+      <span class="tag">Crop Insurance • Risk Protection</span>
+    </div>
+    <div class="btnGroup">
+      <button class="applyBtn" onclick="openApply('PM Fasal Bima Yojana (PMFBY)')"><i class="fa-solid fa-file-signature"></i> Apply Now</button>
+      <button class="infoBtn" onclick="showInfo('PM Fasal Bima Yojana', 'Insures Kharif, Rabi, and commercial crops against unseasonal rainfall and pest attacks.')">Details</button>
+    </div>
+  </div>
+
+  <div class="scheme">
+    <div>
+      <h2>🚜 SMAM Tractor & Equipment Subsidy</h2>
+      <p>Sub-Mission on Agricultural Mechanization offers 40% to 50% subsidy for tractors, rotavators, power tillers, and harvesters.</p>
+      <p class="benefit">✅ Up to ₹2.5 Lakh subsidy for individual farmers.</p>
+      <span class="tag">Farm Machinery • Modernization</span>
+    </div>
+    <div class="btnGroup">
+      <button class="applyBtn" onclick="openApply('Tractor & Machinery Subsidy')"><i class="fa-solid fa-file-signature"></i> Apply Now</button>
+      <button class="infoBtn" onclick="showInfo('Tractor Subsidy', 'Direct financial subsidy through DBT on purchase of tractors and implements.')">Details</button>
+    </div>
+  </div>
+
+  <div class="scheme">
+    <div>
+      <h2>☀️ PM KUSUM Solar Pump Scheme</h2>
+      <p>Subsidy of up to 60% for farmers to install standalone solar water pumps (3HP to 7.5HP) in grid-disconnected regions.</p>
+      <p class="benefit">✅ Zero electricity bill for irrigation with clean daytime power.</p>
+      <span class="tag">Solar Energy • Grid Independence</span>
+    </div>
+    <div class="btnGroup">
+      <button class="applyBtn" onclick="openApply('PM KUSUM Solar Pump Scheme')"><i class="fa-solid fa-file-signature"></i> Apply Now</button>
+      <button class="infoBtn" onclick="showInfo('PM KUSUM', 'Provides 3HP to 7.5HP solar pumps with 30% central and 30% state subsidy.')">Details</button>
+    </div>
+  </div>
+
+  <div class="scheme">
+    <div>
+      <h2>💧 PM Krishi Sinchayee Yojana (PMKSY)</h2>
+      <p>Promotes Per Drop More Crop precision irrigation with up to 55% subsidy for micro-irrigation (drip and sprinkler systems).</p>
+      <p class="benefit">✅ Saves 40-50% water while increasing yield by up to 30%.</p>
+      <span class="tag">Water Management • Drip Subsidy</span>
+    </div>
+    <div class="btnGroup">
+      <button class="applyBtn" onclick="openApply('PM Krishi Sinchayee Yojana')"><i class="fa-solid fa-file-signature"></i> Apply Now</button>
+      <button class="infoBtn" onclick="showInfo('PMKSY Irrigation', 'High subsidy grants for installing certified drip lateral pipes and filter units.')">Details</button>
+    </div>
+  </div>
+
+  <div class="scheme">
+    <div>
+      <h2>🌱 Paramparagat Krishi Vikas (PKVY)</h2>
+      <p>Cluster-based organic farming initiative providing ₹50,000 per hectare over 3 years for bio-fertilizers and organic certification.</p>
+      <p class="benefit">✅ Free PGS organic certification and premium market linkage.</p>
+      <span class="tag">Organic Certification • Zero Budget</span>
+    </div>
+    <div class="btnGroup">
+      <button class="applyBtn" onclick="openApply('Paramparagat Krishi Vikas (PKVY)')"><i class="fa-solid fa-file-signature"></i> Apply Now</button>
+      <button class="infoBtn" onclick="showInfo('PKVY Organic', 'Supports groups of farmers converting to organic farming with financial assistance.')">Details</button>
+    </div>
+  </div>
+</div>
+
+<div id="applicationsContainer" style="display:none;width:92%;max-width:800px;margin:auto;padding-bottom:40px;">
+  <div id="applicationsList"></div>
+</div>
+
+<!-- Apply Modal -->
+<div class="modal" id="applyModal">
+  <div class="modalContent">
+    <h2 id="schemeTitle">Apply Scheme</h2>
+    <p style="font-size:12px;color:#a7f3d0;margin-bottom:10px;">Data will be logged directly into the persistent server database.</p>
+    <input type="text" id="farmerName" placeholder="Farmer Full Name (as on Aadhaar)">
+    <input type="text" id="aadhaar" placeholder="12-digit Aadhaar Number">
+    <input type="tel" id="mobile" placeholder="Mobile Number (linked to Aadhaar)">
+    <input type="text" id="village" placeholder="Village / Gram Panchayat & District">
+    <button class="submitBtn" onclick="submitApplication()"><i class="fa-solid fa-paper-plane"></i> Submit Application</button>
+    <button class="closeBtn" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<script>
+let selectedScheme = "";
+
+function searchScheme(){
+  const input = document.getElementById("search").value.toLowerCase();
+  const schemes = document.getElementsByClassName("scheme");
+  for(let i=0; i<schemes.length; i++){
+    const text = schemes[i].innerText.toLowerCase();
+    schemes[i].style.display = text.includes(input) ? "flex" : "none";
+  }
+}
+
+function openApply(name){
+  selectedScheme = name;
+  document.getElementById("schemeTitle").innerText = "Apply for " + name;
+  document.getElementById("applyModal").style.display = "flex";
+}
+
+function closeModal(){
+  document.getElementById("applyModal").style.display = "none";
+}
+
+async function submitApplication(){
+  const farmer = document.getElementById("farmerName").value.trim();
+  const aadhaar = document.getElementById("aadhaar").value.trim();
+  const mobile = document.getElementById("mobile").value.trim();
+  const village = document.getElementById("village").value.trim();
+
+  if(!farmer || !aadhaar){
+    alert("Please fill in Farmer Name and Aadhaar Number!");
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/schemes/apply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ scheme: selectedScheme, farmer, aadhaar, mobile, village })
+    });
+    const data = await res.json();
+    if(data.success){
+      alert(`✅ Application logged with Persistent Reference ID: ${data.application.id}`);
+      closeModal();
+      document.getElementById("farmerName").value = "";
+      document.getElementById("aadhaar").value = "";
+      document.getElementById("mobile").value = "";
+      document.getElementById("village").value = "";
+      loadApplications();
+    }
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+function showInfo(name, details){
+  alert(`ℹ️ ${name}\n\n${details}\n\nVerification documents will be verified by the local Gram One / Krishi Kendra.`);
+}
+
+function switchTab(tab){
+  const schemesContainer = document.getElementById("schemeContainer");
+  const appsContainer = document.getElementById("applicationsContainer");
+  const tabSchemes = document.getElementById("tabSchemes");
+  const tabApps = document.getElementById("tabApps");
+
+  if(tab === "schemes"){
+    schemesContainer.style.display = "grid";
+    appsContainer.style.display = "none";
+    tabSchemes.classList.add("active");
+    tabApps.classList.remove("active");
+  } else {
+    schemesContainer.style.display = "none";
+    appsContainer.style.display = "block";
+    tabSchemes.classList.remove("active");
+    tabApps.classList.add("active");
+    loadApplications();
+  }
+}
+
+async function loadApplications(){
+  try {
+    const res = await fetch('/api/schemes/applications');
+    const apps = await res.json();
+    document.getElementById("appCount").innerText = apps.length;
+
+    const list = document.getElementById("applicationsList");
+    if(apps.length === 0){
+      list.innerHTML = `<div style="text-align:center;padding:50px;color:#a7f3d0;">📭 No applications submitted yet. Apply from the All Schemes tab.</div>`;
+      return;
+    }
+
+    let html = "";
+    apps.forEach((a) => {
+      html += `
+        <div class="app-card">
+          <div>
+            <h4 style="font-size:15px;color:white;font-weight:700;">${a.scheme}</h4>
+            <div style="color:#00ff88;font-size:12px;margin:3px 0;">Ref: <b style="font-family:monospace;">${a.id}</b> • Date: ${a.date}</div>
+            <div style="color:#c8e6c9;font-size:12px;">Farmer: ${a.farmer} (${a.village})</div>
+            <div style="color:#80cbc4;font-size:12px;margin-top:2px;">⏳ ${a.status}</div>
+          </div>
+          <button onclick="deleteApp('${a.id}')" style="background:none;border:none;color:#ff5252;cursor:pointer;font-size:16px;">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      `;
+    });
+    list.innerHTML = html;
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+async function deleteApp(id){
+  if(!confirm("Cancel this scheme application?")) return;
+  try {
+    await fetch(`/api/schemes/applications/${id}`, { method: 'DELETE' });
+    loadApplications();
+  } catch(e) {
+    console.error(e);
+  }
+}
+
+loadApplications();
+</script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+{
+  "users": [
+    {
+      "id": "usr-kisan-101",
+      "fullName": "Ramesh Patel",
+      "phone": "9845112233",
+      "passwordHash": "867e36f11aabb70df7e9add250c724bf2431728e6ab20026d5633c4a627cb8d50f088d99f895156d9737245ccca18da62be50e68935c9af7713a6b7f1488dd67",
+      "salt": "e9c8f2a1b4d3e5f60718293a4b5c6d7e",
+      "village": "Hadadi Village",
+      "district": "Davangere",
+      "state": "Karnataka",
+      "landholdingAcres": 4.5,
+      "primaryCrops": [
+        "Paddy (Sona Masuri)",
+        "Yellow Maize",
+        "Arecanut"
+      ],
+      "preferredLang": "kn-IN",
+      "createdAt": "2026-10-01T08:00:00Z"
+    },
+    {
+      "id": "usr-1792953154168-700",
+      "fullName": "Farmer Ramesh A",
+      "phone": "9811186827",
+      "passwordHash": "3d810bfa4e54df1cb50726e60cb9ea4919e1d2cdd072dec7c9ec82f82954ad19fcef55ce94eb25a09662af4a9eb36bfc2d448a71d4f732d3e45122d865160c98",
+      "salt": "09dfa648bbe5c7d5ff5d5e105920120a",
+      "village": "Hadadi",
+      "district": "Davangere",
+      "state": "Karnataka",
+      "landholdingAcres": 2,
+      "primaryCrops": [
+        "Paddy"
+      ],
+      "preferredLang": "kn-IN",
+      "createdAt": "2026-10-25T18:32:34.168Z"
+    },
+    {
+      "id": "usr-1792953154183-275",
+      "fullName": "Farmer Suresh B",
+      "phone": "9822225435",
+      "passwordHash": "d6868d76217ad5b768ea179d77817540c4eaa9a38ec5dffccc16f2852e300b802991f5b3b481063d1992ab962c7970d6f05bf7a4e785349fc58302ed8b933c2b",
+      "salt": "cf0e7c5b40e6d4b6107a1883d4aec0ea",
+      "village": "Harihar",
+      "district": "Davangere",
+      "state": "Karnataka",
+      "landholdingAcres": 2,
+      "primaryCrops": [
+        "Paddy"
+      ],
+      "preferredLang": "kn-IN",
+      "createdAt": "2026-10-25T18:32:34.183Z"
+    },
+    {
+      "id": "usr-1792953171547-953",
+      "fullName": "Farmer Ramesh A",
+      "phone": "9811731158",
+      "passwordHash": "06f02ab9a4db525fe2f85a5c145b9aa4d88dda1d3cf76d5fe2c1f8adeb21640da7c1d9b9c42aab0bf07914080dafa5b73d3054c6b265b2f1a835d2af279ac91e",
+      "salt": "d425a9c7aa1ae2e998e0f19e0b08fafa",
+      "village": "Hadadi",
+      "district": "Davangere",
+      "state": "Karnataka",
+      "landholdingAcres": 2,
+      "primaryCrops": [
+        "Paddy"
+      ],
+      "preferredLang": "kn-IN",
+      "createdAt": "2026-10-25T18:32:51.547Z"
+    },
+    {
+      "id": "usr-1792953171558-174",
+      "fullName": "Farmer Suresh B",
+      "phone": "9822187249",
+      "passwordHash": "ccba7303253cbbe9859f4675885b7955b1484791ca11b0a2355ee0238e1af4e35318408710c7a2ab32c89fc2531c67e8b023b28b5178046ec7fb828a0c21c863",
+      "salt": "d1bd24b7460191d9397dea8d1d188f3e",
+      "village": "Harihar",
+      "district": "Davangere",
+      "state": "Karnataka",
+      "landholdingAcres": 2,
+      "primaryCrops": [
+        "Paddy"
+      ],
+      "preferredLang": "kn-IN",
+      "createdAt": "2026-10-25T18:32:51.558Z"
+    }
+  ],
+  "sessions": {
+    "083d1f5d9111dc65eb211bd2cfabca77f47a097a74e80861ccd9f76ba414fd5c": {
+      "token": "083d1f5d9111dc65eb211bd2cfabca77f47a097a74e80861ccd9f76ba414fd5c",
+      "userId": "usr-kisan-101",
+      "createdAt": 1792948850438,
+      "expiresAt": 1793553650438
+    },
+    "d8dcc9a2250234bc067d67ab88004d50e360a972061dad25ce1337dd9fcae9d7": {
+      "token": "d8dcc9a2250234bc067d67ab88004d50e360a972061dad25ce1337dd9fcae9d7",
+      "userId": "usr-1792953154168-700",
+      "createdAt": 1792953154169,
+      "expiresAt": 1793557954169
+    },
+    "3391907a1397fa7bfd6be87c9095a5047b745f34f44eb032b2680354f8e86322": {
+      "token": "3391907a1397fa7bfd6be87c9095a5047b745f34f44eb032b2680354f8e86322",
+      "userId": "usr-1792953154183-275",
+      "createdAt": 1792953154183,
+      "expiresAt": 1793557954183
+    },
+    "903caeee2d7787a964985129c33715565b5619492faa473cf29a03858c44b389": {
+      "token": "903caeee2d7787a964985129c33715565b5619492faa473cf29a03858c44b389",
+      "userId": "usr-1792953171547-953",
+      "createdAt": 1792953171548,
+      "expiresAt": 1793557971548
+    },
+    "373f40ebf9203b7a9cb2eea65c2bc23f77dd198666ff93cb6d766c0947bcfffa": {
+      "token": "373f40ebf9203b7a9cb2eea65c2bc23f77dd198666ff93cb6d766c0947bcfffa",
+      "userId": "usr-1792953171558-174",
+      "createdAt": 1792953171558,
+      "expiresAt": 1793557971558
+    }
+  },
+  "produce": [
+    {
+      "id": "p-1",
+      "farmerName": "Ramesh Patil",
+      "phone": "9845123456",
+      "crop": "Premium Basmati Rice (Pusa 1121)",
+      "category": "Cereals",
+      "quantity": 1500,
+      "pricePerKg": 68,
+      "location": "Karnal, Haryana",
+      "state": "Haryana",
+      "imageUrl": "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80",
+      "harvestDate": "2026-10-18",
+      "status": "Available",
+      "createdAt": "2026-10-20T10:00:00Z"
+    },
+    {
+      "id": "p-2",
+      "farmerName": "Anand Biradar",
+      "phone": "9448198765",
+      "crop": "Organic Sharbati Milling Wheat",
+      "category": "Cereals",
+      "quantity": 1200,
+      "pricePerKg": 34,
+      "location": "Bidar, Karnataka",
+      "state": "Karnataka",
+      "imageUrl": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80",
+      "harvestDate": "2026-10-15",
+      "status": "Available",
+      "createdAt": "2026-10-21T08:30:00Z"
+    },
+    {
+      "id": "p-3",
+      "farmerName": "Vikas Patil",
+      "phone": "9765432109",
+      "crop": "Bt Cotton (Bollgard II Clean)",
+      "category": "Cash Crops",
+      "quantity": 2800,
+      "pricePerKg": 76,
+      "location": "Yavatmal, Maharashtra",
+      "state": "Maharashtra",
+      "imageUrl": "https://images.unsplash.com/photo-1594489428504-5c0c480a15fd?auto=format&fit=crop&w=600&q=80",
+      "harvestDate": "2026-10-22",
+      "status": "Available",
+      "createdAt": "2026-10-22T14:15:00Z"
+    },
+    {
+      "id": "p-4",
+      "farmerName": "Basavarajappa",
+      "phone": "9988776655",
+      "crop": "Yellow Feed Maize (Dry)",
+      "category": "Cereals",
+      "quantity": 3500,
+      "pricePerKg": 24,
+      "location": "Davangere, Karnataka",
+      "state": "Karnataka",
+      "imageUrl": "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=600&q=80",
+      "harvestDate": "2026-10-19",
+      "status": "Available",
+      "createdAt": "2026-10-23T11:00:00Z"
+    }
+  ],
+  "inquiries": [],
+  "scans": [
+    {
+      "id": "scan-1",
+      "cropName": "Tomato",
+      "title": "Early Blight (Alternaria solani)",
+      "summary": "Target-like brown spots with concentric rings detected on lower foliage with chlorotic yellow halo.",
+      "causes": [
+        "Warm temperature alternating with rainy periods",
+        "Overhead watering splashing soil onto foliage"
+      ],
+      "treatment": [
+        "Foliar spray of Chlorothalonil 75% WP @ 2g/L or Mancozeb 75% WP @ 2.5g/L",
+        "Organic: 5% Neem seed oil extract"
+      ],
+      "prevention": [
+        "Crop rotation away from nightshade crops",
+        "Mulching around root zones"
+      ],
+      "recoveryRate": "High (85%) with prompt care",
+      "thumbnail": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=200&q=80",
+      "scannedAt": "2026-10-24T09:15:00Z"
+    }
+  ],
+  "applications": [
+    {
+      "id": "KM-748291",
+      "scheme": "PM-KISAN Samman Nidhi",
+      "farmer": "Kisan Mitra",
+      "aadhaar": "XXXX-XXXX-8492",
+      "mobile": "9845112233",
+      "village": "Davangere Gram Panchayat",
+      "date": "2026-10-24",
+      "status": "Verified by Taluk Agriculture Officer (Disbursement Pending)",
+      "createdAt": "2026-10-24T12:00:00Z"
+    }
+  ],
+  "pumpTelemetry": {
+    "isRunning": true,
+    "surgeTripCount": 0,
+    "lastTripAt": null
+  },
+  "khata": [
+    {
+      "cropName": "Paddy",
+      "season": "Kharif 2026",
+      "category": "Fertilizer & Nutrition",
+      "description": "Urea and DAP bags",
+      "amount": 3200,
+      "date": "2026-10-25",
+      "paymentMode": "Cash",
+      "id": "kh-1792953171554",
+      "userId": "usr-1792953171547-953"
+    },
+    {
+      "cropName": "Paddy",
+      "season": "Kharif 2026",
+      "category": "Fertilizer & Nutrition",
+      "description": "Negative invalid test",
+      "amount": -500,
+      "date": "2026-10-25",
+      "paymentMode": "Cash",
+      "id": "kh-1792953154193"
+    },
+    {
+      "id": "kh-1",
+      "cropName": "Basmati Rice (Pusa 1121)",
+      "season": "Kharif 2026",
+      "category": "Land Preparation & Tractor",
+      "description": "Primary disc ploughing & puddling (2 passes with tractor)",
+      "amount": 4800,
+      "date": "2026-06-12",
+      "paymentMode": "Cash"
+    },
+    {
+      "id": "kh-2",
+      "cropName": "Basmati Rice (Pusa 1121)",
+      "season": "Kharif 2026",
+      "category": "Seeds & Nursery",
+      "description": "Certified Pusa 1121 seed bags (25 kg) + Trichoderma seed treatment",
+      "amount": 2350,
+      "date": "2026-06-18",
+      "paymentMode": "UPI"
+    },
+    {
+      "id": "kh-3",
+      "cropName": "Basmati Rice (Pusa 1121)",
+      "season": "Kharif 2026",
+      "category": "Fertilizer & Nutrition",
+      "description": "DAP 2 bags (Basal) + Zinc Sulfate 21% (10 kg) from IFFCO Society",
+      "amount": 3150,
+      "date": "2026-06-25",
+      "paymentMode": "Kisan Credit Card (KCC)"
+    },
+    {
+      "id": "kh-4",
+      "cropName": "Basmati Rice (Pusa 1121)",
+      "season": "Kharif 2026",
+      "category": "Labor & Weeding",
+      "description": "Manual transplanting labor (6 workers for 1.5 days)",
+      "amount": 5400,
+      "date": "2026-07-02",
+      "paymentMode": "Cash"
+    },
+    {
+      "id": "kh-5",
+      "cropName": "Basmati Rice (Pusa 1121)",
+      "season": "Kharif 2026",
+      "category": "Harvesting & Threshing",
+      "description": "Combine harvester hiring (2.5 acres @ ₹1,800/acre)",
+      "amount": 4500,
+      "date": "2026-10-18",
+      "paymentMode": "UPI"
+    }
+  ],
+  "machinery": [
+    {
+      "id": "mach-1",
+      "name": "Mahindra 575 DI (45 HP) Tractor + Heavy Trolley",
+      "category": "Tractor",
+      "hpOrCapacity": "45 HP / 4WD",
+      "ownerName": "Gurudas Gowda",
+      "phone": "9845199201",
+      "location": "Davangere Rural",
+      "state": "Karnataka",
+      "rateType": "hourly",
+      "rateAmount": 650,
+      "operatorIncluded": true,
+      "fuelIncluded": false,
+      "imageUrl": "https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=600&q=80",
+      "available": true
+    },
+    {
+      "id": "mach-2",
+      "name": "Shaktiman 7-Feet Rotary Tiller (Rotavator)",
+      "category": "Rotavator",
+      "hpOrCapacity": "7 Feet / 48 Blades",
+      "ownerName": "Manjunath Reddy",
+      "phone": "9740112233",
+      "location": "Raichur Sindhanur",
+      "state": "Karnataka",
+      "rateType": "per_acre",
+      "rateAmount": 950,
+      "operatorIncluded": true,
+      "fuelIncluded": true,
+      "imageUrl": "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80",
+      "available": true
+    },
+    {
+      "id": "mach-3",
+      "name": "DJI Agras T40 Smart Agriculture Drone Sprayer",
+      "category": "Drone Sprayer",
+      "hpOrCapacity": "40L Payload / 10 min per acre",
+      "ownerName": "Praveen Kulkarni (Certified Pilot)",
+      "phone": "9448822334",
+      "location": "Kalaburagi (Gulbarga)",
+      "state": "Karnataka",
+      "rateType": "per_acre",
+      "rateAmount": 480,
+      "operatorIncluded": true,
+      "fuelIncluded": true,
+      "imageUrl": "https://images.unsplash.com/photo-1527977966376-1c8408f9f108?auto=format&fit=crop&w=600&q=80",
+      "available": true
+    },
+    {
+      "id": "mach-4",
+      "name": "Preet 987 Self-Propelled Multi-Crop Combine Harvester",
+      "category": "Harvester",
+      "hpOrCapacity": "101 HP / Paddy & Wheat Cutter Bar",
+      "ownerName": "Jagjit Singh",
+      "phone": "9876543210",
+      "location": "Karnal Nilokheri",
+      "state": "Haryana",
+      "rateType": "per_acre",
+      "rateAmount": 1850,
+      "operatorIncluded": true,
+      "fuelIncluded": true,
+      "imageUrl": "https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&w=600&q=80",
+      "available": true
+    },
+    {
+      "id": "mach-5",
+      "name": "Trimble Laser Land Leveler with GPS Mast",
+      "category": "Laser Leveler",
+      "hpOrCapacity": "300m Precision Range",
+      "ownerName": "Sanjay Deshmukh",
+      "phone": "9822334455",
+      "location": "Baramati, Pune",
+      "state": "Maharashtra",
+      "rateType": "hourly",
+      "rateAmount": 1200,
+      "operatorIncluded": true,
+      "fuelIncluded": false,
+      "imageUrl": "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?auto=format&fit=crop&w=600&q=80",
+      "available": true
+    }
+  ],
+  "machineryBookings": [
+    {
+      "id": "bk-101",
+      "machineryId": "mach-3",
+      "machineryName": "DJI Agras T40 Drone Sprayer",
+      "farmerName": "Basavarajappa",
+      "farmerPhone": "9988776655",
+      "village": "Hadadi Village, Davangere",
+      "bookingDate": "2026-10-27",
+      "unitsRequired": 3,
+      "totalEstimatedCost": 1440,
+      "status": "Confirmed",
+      "createdAt": "2026-10-24T15:00:00Z"
+    }
+  ],
+  "fertilizerPlans": [],
+  "insuranceClaims": [
+    {
+      "id": "ins-1",
+      "claimRef": "PMFBY-2026-88192",
+      "farmerName": "Ramesh Patil",
+      "mobile": "9845123456",
+      "aadhaar": "XXXX-XXXX-4812",
+      "policyOrKCC": "KCC-SBIN-0091823",
+      "crop": "Basmati Rice",
+      "affectedAcres": 1.5,
+      "totalAcres": 3,
+      "disasterType": "Unseasonal Heavy Rain",
+      "incidentDate": "2026-10-23",
+      "estimatedLossPercent": 40,
+      "village": "Nilokheri, Karnal",
+      "district": "Karnal",
+      "status": "Intimation Submitted (72h Compliant)",
+      "createdAt": "2026-10-24T08:00:00Z"
+    }
+  ],
+  "coldStorages": [
+    {
+      "id": "cs-1",
+      "name": "Kolar Agro Multi-Chamber Cold Storage",
+      "district": "Kolar",
+      "state": "Karnataka",
+      "capacityMT": 5000,
+      "availableCapacityMT": 1400,
+      "temperatureRange": "2°C to 8°C (Humidity 90%)",
+      "suitableCrops": [
+        "Tomatoes",
+        "Capsicum",
+        "Carrots",
+        "Cabbage",
+        "Grapes"
+      ],
+      "monthlyRatePerQuintal": 85,
+      "enwrRegistered": true,
+      "phone": "08152-245678",
+      "distanceKm": 12
+    },
+    {
+      "id": "cs-2",
+      "name": "Lasalgaon Mandi Onion Dehydration & Solar Sheds",
+      "district": "Nashik",
+      "state": "Maharashtra",
+      "capacityMT": 8500,
+      "availableCapacityMT": 2200,
+      "temperatureRange": "Ventilated 24°C-28°C / Dry Air",
+      "suitableCrops": [
+        "Red Onions",
+        "Garlic",
+        "Dry Chillies"
+      ],
+      "monthlyRatePerQuintal": 60,
+      "enwrRegistered": true,
+      "phone": "02550-266123",
+      "distanceKm": 8
+    },
+    {
+      "id": "cs-3",
+      "name": "Agra Potato & Seed Tuber Climate Depot",
+      "district": "Agra",
+      "state": "Uttar Pradesh",
+      "capacityMT": 12000,
+      "availableCapacityMT": 3100,
+      "temperatureRange": "3°C to 4°C with CIPC sprout suppression",
+      "suitableCrops": [
+        "Potatoes",
+        "Seed Tubers"
+      ],
+      "monthlyRatePerQuintal": 70,
+      "enwrRegistered": true,
+      "phone": "0562-239841",
+      "distanceKm": 15
+    },
+    {
+      "id": "cs-4",
+      "name": "Davangere Maize & Grain Silo Complex",
+      "district": "Davangere",
+      "state": "Karnataka",
+      "capacityMT": 6000,
+      "availableCapacityMT": 1850,
+      "temperatureRange": "Moisture Controlled Ambient Silo",
+      "suitableCrops": [
+        "Maize",
+        "Paddy",
+        "Pulses",
+        "Oilseeds"
+      ],
+      "monthlyRatePerQuintal": 50,
+      "enwrRegistered": true,
+      "phone": "08192-221199",
+      "distanceKm": 6
+    }
+  ]
+}

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiMitra AI - Smart Farming Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{min-height:100vh;background:linear-gradient(to bottom,#e8f5e9,#c8e6c9,#a5d6a7);overflow-x:hidden;color:#1b4332;}
+.bg{position:fixed;top:0;left:0;width:100%;height:100%;overflow:hidden;z-index:-1;}
+.bg span{position:absolute;display:block;font-size:40px;opacity:0.15;animation:leafMove 18s linear infinite;bottom:-100px;}
+@keyframes leafMove{0%{transform:translateY(0) rotate(0deg);opacity:0;}20%{opacity:0.2;}100%{transform:translateY(-1100px) rotate(360deg);opacity:0;}}
+#loader{position:fixed;top:0;left:0;width:100%;height:100%;background:#f1f8e9;display:flex;justify-content:center;align-items:center;flex-direction:column;z-index:9999;transition:opacity 0.4s;}
+.loaderCircle{width:80px;height:80px;border:8px solid rgba(76,175,80,0.2);border-top:8px solid #2e7d32;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:20px;}
+@keyframes spin{100%{transform:rotate(360deg);}}
+.container{padding:30px 20px;text-align:center;animation:fadeIn 1s ease;position:relative;max-width:1200px;margin:0 auto;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.top-nav{position:absolute;top:20px;right:20px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.langBtn{padding:6px 16px;border:2px solid #43a047;border-radius:40px;background:white;color:#2e7d32;font-weight:600;cursor:pointer;transition:0.3s;font-size:13px;}
+.langBtn.active{background:#43a047;color:white;}
+.logoutBtn{padding:6px 14px;border:none;border-radius:40px;font-size:13px;background:linear-gradient(to right,#43a047,#66bb6a);color:white;cursor:pointer;box-shadow:0 6px 15px rgba(76,175,80,0.4);font-weight:600;}
+.logo{font-size:70px;animation:float 3s ease-in-out infinite;margin-top:20px;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+h1{font-size:46px;font-weight:700;color:#1b5e20;letter-spacing:-0.5px;}
+.tagline{font-size:18px;color:#2e7d32;margin-top:8px;font-weight:500;}
+.badge{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:10px 22px;border-radius:40px;background:white;box-shadow:0 5px 15px rgba(0,0,0,0.08);font-weight:600;color:#2e7d32;font-size:14px;}
+.searchBox{margin-top:35px;display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;padding:0 15px;}
+.searchBox input{width:50%;max-width:440px;height:55px;padding:0 25px;border:none;outline:none;border-radius:50px;font-size:15px;background:white;color:#1b4332;box-shadow:0 5px 15px rgba(0,0,0,0.1);transition:0.3s;}
+.searchBox input:focus{transform:scale(1.02);box-shadow:0 0 15px rgba(67,160,71,0.3);}
+.micBtn,.searchBtn{position:relative;width:55px;height:55px;border:none;border-radius:50%;background:linear-gradient(135deg,#66bb6a,#2e7d32);display:flex;justify-content:center;align-items:center;cursor:pointer;box-shadow:0 0 20px rgba(76,175,80,0.35);transition:0.3s;}
+.micBtn.active::after{content:"";position:absolute;width:100%;height:100%;border-radius:50%;background:rgba(255,82,82,0.4);animation:siriRipple 1.2s infinite;}
+@keyframes siriRipple{0%{transform:scale(1);opacity:1;}100%{transform:scale(1.8);opacity:0;}}
+.searchBtn span{font-size:20px;color:white;}
+.micIcon{position:relative;z-index:2;width:18px;height:26px;border-radius:20px;background:white;display:flex;justify-content:center;align-items:flex-end;padding-bottom:4px;}
+.micIcon span{width:8px;height:8px;border-radius:50%;background:#43a047;}
+.micBtn.active .micIcon span{animation:voiceWave 0.5s infinite;background:#ff5252;}
+@keyframes voiceWave{0%,100%{transform:scale(0.8);}50%{transform:scale(1.4);}}
+.cards{margin-top:45px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;padding:10px;}
+.card{padding:26px 20px;border-radius:26px;text-decoration:none;color:#1b4332;background:white;box-shadow:0 8px 25px rgba(0,0,0,0.08);transition:0.3s;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.6);}
+.card:hover{transform:translateY(-8px);box-shadow:0 15px 35px rgba(46,125,50,0.15);border-color:#66bb6a;}
+.card .icon{font-size:46px;margin-bottom:12px;}
+.card h3{font-size:18px;color:#1b5e20;margin-bottom:4px;}
+.card p{font-size:13px;color:#666;}
+footer{margin-top:50px;padding:22px;font-size:14px;background:#2e7d32;color:white;border-radius:20px 20px 0 0;}
+/* Floating AI Robot */
+#ai-robot{position:fixed;bottom:30px;right:30px;width:70px;height:70px;border-radius:50%;cursor:pointer;z-index:1000;display:flex;justify-content:center;align-items:center;background:white;box-shadow:0 10px 25px rgba(0,0,0,0.2),0 0 15px #43a047;transition:0.3s;}
+#ai-robot.listening{box-shadow:0 10px 25px rgba(0,0,0,0.2),0 0 20px #ff5252;animation:floatBounce 0.8s infinite alternate ease-in-out;}
+.robot-face{font-size:36px;z-index:2;transition:transform 0.3s;}
+#ai-robot.listening .robot-face{transform:scale(1.15);}
+.robot-ring{position:absolute;width:100%;height:100%;border-radius:50%;border:2px solid #43a047;z-index:1;animation:robotPulse 2.5s infinite ease-out;}
+#ai-robot.listening .robot-ring{border-color:#ff5252;animation:robotPulse 1s infinite ease-out;}
+.robot-ring.delay{animation-delay:1.25s;}
+@keyframes robotPulse{0%{transform:scale(1);opacity:0.8;}100%{transform:scale(1.8);opacity:0;}}
+@keyframes floatBounce{0%{transform:translateY(0);}100%{transform:translateY(-8px);}}
+/* Voice Response Box */
+#response-box{position:fixed;bottom:115px;right:30px;width:340px;background:white;border-radius:20px;box-shadow:0 12px 35px rgba(0,0,0,0.2);z-index:999;transform:scale(0);transform-origin:bottom right;transition:transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275);overflow:hidden;border:1px solid #c8e6c9;text-align:left;}
+#response-box.show{transform:scale(1);}
+.response-header{background:linear-gradient(135deg,#43a047,#2e7d32);color:white;padding:12px 18px;font-weight:600;display:flex;justify-content:space-between;align-items:center;font-size:14px;letter-spacing:0.5px;}
+.close-btn{background:none;border:none;color:white;font-size:16px;cursor:pointer;opacity:0.8;transition:0.2s;}
+.close-btn:hover{opacity:1;transform:scale(1.1);}
+.response-content{padding:18px;min-height:80px;color:#1b4332;font-size:14px;font-weight:500;display:flex;flex-direction:column;justify-content:center;line-height:1.6;}
+#typing-indicator{display:flex;gap:5px;align-items:center;}
+.dot{width:8px;height:8px;background:#43a047;border-radius:50%;animation:typeDot 1.4s infinite ease-in-out both;}
+.dot:nth-child(1){animation-delay:-0.32s;}
+.dot:nth-child(2){animation-delay:-0.16s;}
+@keyframes typeDot{0%,80%,100%{transform:scale(0);}40%{transform:scale(1);}}
+.ai-wave{display:flex;gap:4px;align-items:flex-end;height:25px;margin-top:8px;}
+.wave-bar{width:5px;background:#43a047;border-radius:3px;animation:waveBounce 0.5s infinite alternate;}
+.wave-bar:nth-child(2){animation-delay:0.1s;}
+.wave-bar:nth-child(3){animation-delay:0.2s;}
+.wave-bar:nth-child(4){animation-delay:0.3s;}
+.wave-bar:nth-child(5){animation-delay:0.4s;}
+@keyframes waveBounce{0%{height:5px;}100%{height:25px;}}
+@media(max-width:768px){h1{font-size:34px;}.top-nav{position:static;justify-content:center;margin-bottom:15px;}.searchBox input{width:75%;}#response-box{width:90%;left:5%;right:5%;bottom:110px;}}
+</style>
+</head>
+<body>
+<div class="bg">
+  <span>🌿</span><span>🍃</span><span>🌱</span><span>🌾</span><span>🍀</span>
+</div>
+
+<div id="loader">
+  <div class="loaderCircle"></div>
+  <h2>🌾 KrishiMitra AI Loading...</h2>
+</div>
+
+<div class="container">
+  <div class="top-nav">
+    <button class="langBtn active" id="btn-en" onclick="setLanguage('en-IN')">English</button>
+    <button class="langBtn" id="btn-hi" onclick="setLanguage('hi-IN')">हिन्दी</button>
+    <button class="langBtn" id="btn-kn" onclick="setLanguage('kn-IN')">ಕನ್ನಡ</button>
+    <button class="logoutBtn" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+  </div>
+
+  <div class="logo">🌾</div>
+  <h1>KrishiMitra AI</h1>
+  <p class="tagline">Smart Farming • Better Harvest • Sustainable Future</p>
+  <div class="badge" id="status-badge"><i class="fa-solid fa-circle-check" style="color:#2e7d32;"></i> KrishiMitra Core Online</div>
+
+  <div class="searchBox">
+    <input type="text" id="search" placeholder="Ask KRISH anything (e.g. wheat sowing, mandi price, urea dose)..." onkeypress="if(event.key==='Enter') performSearch()">
+    <button class="searchBtn" onclick="performSearch()"><span>🔍</span></button>
+    <button class="micBtn" id="mic-btn" onclick="startVoice()">
+      <div class="micIcon"><span></span></div>
+    </button>
+  </div>
+
+  <div class="cards">
+    <a href="crop.html" class="card"><div class="icon">🌱</div><h3>Crops</h3><p>AI Soil & Weather Matcher</p></a>
+    <a href="disease.html" class="card"><div class="icon">🔬</div><h3>Disease Scanner</h3><p>Leaf Camera AI Detection</p></a>
+    <a href="weather.html" class="card"><div class="icon">☁️</div><h3>Weather</h3><p>Live Forecast & Spraying</p></a>
+    <a href="pumpmonitor.html" class="card"><div class="icon">📡</div><h3>Smart Pump</h3><p>Motor Health & Surge Guard</p></a>
+    <a href="market.html" class="card"><div class="icon">📈</div><h3>Mandi Prices</h3><p>APMC Rates & Profit Est.</p></a>
+    <a href="sell.html" class="card"><div class="icon">🛒</div><h3>Sell Crop</h3><p>Direct Farmer Marketplace</p></a>
+    <a href="buy.html" class="card"><div class="icon">🛍️</div><h3>Buy Inputs</h3><p>Seeds, Bio-Fertilizers & Tools</p></a>
+    <a href="government.html" class="card"><div class="icon">🏛️</div><h3>Govt Schemes</h3><p>Subsidies & Direct Benefits</p></a>
+    <a href="assistan.html" class="card"><div class="icon">🤖</div><h3>AI Knowledge Hub</h3><p>Cultivation Guides & Library</p></a>
+    <a href="voiceassistance.html" class="card"><div class="icon">🎙️</div><h3>Voice Assistant</h3><p>Interactive Audio AI</p></a>
+    <a href="organic.html" class="card"><div class="icon">🌿</div><h3>Organic Manual</h3><p>Zero Budget Natural Farming</p></a>
+    <a href="crop_production.html" class="card"><div class="icon">🌾</div><h3>Production Guide</h3><p>Field Cultivation Manuals</p></a>
+  </div>
+
+  <footer>🌾 KrishiMitra AI © 2026 | Dedicated to Empowering Farmers with Cutting-Edge Agritech</footer>
+</div>
+
+<!-- Floating AI Robot -->
+<div id="ai-robot" onclick="toggleRobotAction()" title="Ask KRISH AI">
+  <div class="robot-face">🤖</div>
+  <div class="robot-ring"></div>
+  <div class="robot-ring delay"></div>
+</div>
+
+<div id="response-box">
+  <div class="response-header">
+    <span>🤖 KRISH AI ASSISTANT</span>
+    <button class="close-btn" onclick="closeResponseBox()">✖</button>
+  </div>
+  <div class="response-content">
+    <div id="typing-indicator" style="display:none;">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+    <div id="response-text"></div>
+    <div id="ai-wave" class="ai-wave" style="display:none;">
+      <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let assistantActive = false;
+let isSpeaking = false;
+let recognition = null;
+let currentLang = 'en-IN';
+let typeInterval = null;
+
+window.onload = function() {
+  setTimeout(() => {
+    const loader = document.getElementById("loader");
+    if(loader) loader.style.display = "none";
+  }, 1000);
+
+  initSpeech();
+};
+
+function setLanguage(lang) {
+  currentLang = lang;
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en-IN');
+  document.getElementById('btn-hi').classList.toggle('active', lang === 'hi-IN');
+  const knBtn = document.getElementById('btn-kn');
+  if(knBtn) knBtn.classList.toggle('active', lang === 'kn-IN');
+  if(recognition) recognition.lang = lang;
+  
+  const feedback = lang === 'hi-IN' 
+    ? "नमस्ते किसान भाई, अब मैं आपसे हिन्दी में बात करूँगा।" 
+    : (lang === 'kn-IN' ? "ನಮಸ್ಕಾರ, ನಾನು ಕನ್ನಡದಲ್ಲಿ ಮಾತನಾಡುತ್ತೇನೆ." : "I am ready to assist you in English.");
+  speak(feedback);
+}
+
+function performSearch() {
+  const input = document.getElementById("search");
+  const val = input.value.trim();
+  if (val) {
+    assistantActive = true;
+    handleCommand(val);
+    input.value = "";
+  }
+}
+
+function initSpeech() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) return;
+  recognition = new SpeechRecognition();
+  recognition.lang = currentLang;
+
+  recognition.onresult = (e) => {
+    const cmd = e.results[0][0].transcript;
+    handleCommand(cmd);
+  };
+  recognition.onend = () => {
+    if (assistantActive && !isSpeaking) {
+      updateUI(false);
+    }
+  };
+}
+
+function toggleRobotAction() {
+  if (isSpeaking) {
+    window.speechSynthesis.cancel();
+    isSpeaking = false;
+    closeResponseBox();
+    updateUI(false);
+  } else {
+    startVoice();
+  }
+}
+
+function showResponseBox(text, state = 'speaking') {
+  const box = document.getElementById('response-box');
+  const rText = document.getElementById('response-text');
+  const typing = document.getElementById('typing-indicator');
+  const wave = document.getElementById('ai-wave');
+  
+  box.classList.add('show');
+  rText.innerText = '';
+  clearInterval(typeInterval);
+
+  if (state === 'thinking') {
+    typing.style.display = 'flex';
+    wave.style.display = 'none';
+  } else if (state === 'listening') {
+    typing.style.display = 'none';
+    wave.style.display = 'flex';
+    rText.innerText = currentLang === 'hi-IN' ? "सुन रहा हूँ... बोलिए!" : "Listening to your voice...";
+  } else if (state === 'speaking') {
+    typing.style.display = 'none';
+    wave.style.display = 'none';
+    typeOutText(text, rText);
+  }
+}
+
+function typeOutText(text, element) {
+  let i = 0;
+  typeInterval = setInterval(() => {
+    if (i < text.length) {
+      element.innerText += text.charAt(i);
+      i++;
+    } else {
+      clearInterval(typeInterval);
+    }
+  }, 25);
+}
+
+function closeResponseBox() {
+  document.getElementById('response-box').classList.remove('show');
+}
+
+async function handleCommand(cmd) {
+  document.getElementById("status-badge").innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> KRISH is thinking...`;
+  showResponseBox("", 'thinking');
+  const lower = cmd.toLowerCase();
+
+  // Quick Instant Page Navigation Triggers
+  if (lower.includes("crop") || lower.includes("फसल") || lower.includes("recommend")) {
+    navigateTo("crop.html", currentLang === 'hi-IN' ? "फसल सिफारिश पोर्टल खोल रहा हूँ।" : "Opening smart crop recommendation.");
+    return;
+  }
+  if (lower.includes("weather") || lower.includes("मौसम")) {
+    navigateTo("weather.html", currentLang === 'hi-IN' ? "मौसम पूर्वानुमान खोल रहा हूँ।" : "Opening farm weather forecast.");
+    return;
+  }
+  if (lower.includes("mandi") || lower.includes("market") || lower.includes("भाव") || lower.includes("मंडी")) {
+    navigateTo("market.html", currentLang === 'hi-IN' ? "मंडी भाव खोल रहा हूँ।" : "Opening live mandi price trends.");
+    return;
+  }
+  if (lower.includes("pump") || lower.includes("motor") || lower.includes("पंप")) {
+    navigateTo("pumpmonitor.html", currentLang === 'hi-IN' ? "स्मार्ट पंप मॉनिटर खोल रहा हूँ।" : "Checking smart pump core status.");
+    return;
+  }
+  if (lower.includes("disease") || lower.includes("scanner") || lower.includes("बीमारी")) {
+    navigateTo("disease.html", currentLang === 'hi-IN' ? "रोग स्कैनर खोल रहा हूँ।" : "Opening disease scanner.");
+    return;
+  }
+  if (lower.includes("scheme") || lower.includes("योजना")) {
+    navigateTo("government.html", currentLang === 'hi-IN' ? "सरकारी योजनाएं खोल रहा हूँ।" : "Opening government subsidies.");
+    return;
+  }
+  if (lower.includes("buy") || lower.includes("खरीद")) {
+    navigateTo("buy.html", currentLang === 'hi-IN' ? "कृषि स्टोर खोल रहा हूँ।" : "Opening farm inputs store.");
+    return;
+  }
+  if (lower.includes("sell") || lower.includes("बेच")) {
+    navigateTo("sell.html", currentLang === 'hi-IN' ? "मंडी बिक्री पोर्टल खोल रहा हूँ।" : "Opening crop marketplace.");
+    return;
+  }
+
+  // Call Server-Side Gemini API for intelligent, accurate agricultural guidance!
+  try {
+    const res = await fetch('/api/gemini/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt: cmd, language: currentLang })
+    });
+    const data = await res.json();
+    const reply = data.reply || "🌾 Advice: Ensure adequate soil moisture and balanced fertilizer split.";
+    speak(reply);
+  } catch (err) {
+    console.error(err);
+    const fallback = currentLang === 'hi-IN'
+      ? "फसल सुरक्षा के लिए नियमित रूप से खेत का निरीक्षण करें और संतुलित सिंचाई करें।"
+      : "For best crop health, inspect fields regularly and follow optimal fertilizer dosage.";
+    speak(fallback);
+  }
+}
+
+function navigateTo(url, msg) {
+  speak(msg);
+  setTimeout(() => { window.location.href = url; }, 1800);
+}
+
+function speak(text) {
+  isSpeaking = true;
+  if (recognition) {
+    try { recognition.stop(); } catch(e){}
+  }
+
+  showResponseBox(text, 'speaking');
+  updateUI(true);
+
+  const clean = text.replace(/[*_#`]/g, '');
+  const utterance = new SpeechSynthesisUtterance(clean);
+  utterance.lang = currentLang;
+  utterance.rate = 1.0;
+  utterance.pitch = 1.0;
+
+  utterance.onend = () => {
+    isSpeaking = false;
+    updateUI(false);
+    document.getElementById("status-badge").innerHTML = `<i class="fa-solid fa-circle-check" style="color:#2e7d32;"></i> KrishiMitra Core Online`;
+  };
+
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
+}
+
+function updateUI(active) {
+  const btn = document.getElementById("mic-btn");
+  const robot = document.getElementById("ai-robot");
+
+  if (active) {
+    btn.classList.add("active");
+    if (!isSpeaking) {
+      robot.classList.add("listening");
+      showResponseBox("", 'listening');
+    } else {
+      robot.classList.remove("listening");
+    }
+  } else {
+    btn.classList.remove("active");
+    robot.classList.remove("listening");
+  }
+}
+
+function startVoice() {
+  assistantActive = true;
+  updateUI(true);
+  if(recognition){
+    try { recognition.start(); } catch(e){}
+  } else {
+    speak(currentLang === 'hi-IN' ? "जी किसान भाई, मैं सुन रहा हूँ। पूछिए!" : "I am listening. Ask any farming question!");
+  }
+}
+
+function logout() {
+  const msg = currentLang === 'hi-IN' ? "धन्यवाद किसान भाई, फिर मिलेंगे!" : "Thank you farmer, wishing you a bountiful harvest!";
+  speak(msg);
+  localStorage.removeItem("loggedIn");
+  setTimeout(() => { window.location.href = "login.html"; }, 1600);
+}
+</script>
+</body>
+</html>

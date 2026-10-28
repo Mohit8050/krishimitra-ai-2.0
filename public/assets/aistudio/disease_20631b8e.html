@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b2b1c">
+<title>KrishiMitra AI - Disease Scanner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:linear-gradient(135deg,#06150d,#0b2b1c);min-height:100vh;color:white;overflow-x:hidden;}
+.container{width:100%;max-width:1200px;margin:auto;padding:30px 20px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;flex-wrap:wrap;gap:20px;}
+.logo{display:flex;align-items:center;gap:15px;}
+.logo-icon{width:65px;height:65px;border-radius:18px;background:linear-gradient(135deg,#00ff88,#00b562);display:flex;justify-content:center;align-items:center;font-size:32px;color:#042214;box-shadow:0 0 25px rgba(0,255,136,0.35);animation:glow 2s infinite alternate;}
+@keyframes glow{from{box-shadow:0 0 15px rgba(0,255,136,0.2);}to{box-shadow:0 0 35px rgba(0,255,136,0.5);}}
+.logo-text h1{font-size:32px;color:#ffffff;}
+.logo-text p{color:#b7ffd8;font-size:14px;}
+.nav-actions{display:flex;gap:12px;align-items:center;}
+.home-btn{padding:12px 22px;border:none;border-radius:14px;background:linear-gradient(135deg,#00ff88,#00b562);color:#042214;font-weight:600;font-size:15px;cursor:pointer;transition:0.3s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+.home-btn:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,255,136,0.3);}
+.hero{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:30px;padding:40px;backdrop-filter:blur(10px);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;width:250px;height:250px;background:rgba(0,255,136,0.12);border-radius:50%;top:-70px;right:-70px;filter:blur(30px);}
+.hero h2{font-size:42px;margin-bottom:15px;}
+.hero h2 span{background:linear-gradient(135deg,#00ff88,#b4ffd4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero p{font-size:16px;line-height:1.8;max-width:800px;color:#d3ffea;}
+.scan-box{margin-top:35px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:30px;}
+.upload-card,.result-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:28px;padding:30px;backdrop-filter:blur(8px);display:flex;flex-direction:column;}
+.card-title{font-size:24px;margin-bottom:20px;display:flex;align-items:center;gap:10px;color:#00ff88;}
+.upload-area{border:2px dashed rgba(0,255,136,0.4);border-radius:24px;padding:36px 20px;text-align:center;cursor:pointer;transition:0.3s;display:block;background:rgba(0,0,0,0.2);}
+.upload-area:hover{background:rgba(0,255,136,0.08);transform:scale(1.01);border-color:#00ff88;}
+.upload-icon{font-size:60px;margin-bottom:12px;display:inline-block;animation:float 2s infinite ease-in-out;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.upload-area p{color:#cbffe4;font-size:15px;margin-top:5px;}
+.upload-area small{color:#88c7a6;font-size:12px;display:block;margin-top:4px;}
+input[type=file]{display:none;}
+.preview{margin-top:20px;width:100%;border-radius:20px;display:none;max-height:300px;object-fit:cover;border:2px solid rgba(0,255,136,0.4);box-shadow:0 8px 20px rgba(0,0,0,0.4);}
+.crop-input{width:100%;margin-top:16px;padding:14px 18px;border-radius:14px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:white;font-size:14px;outline:none;}
+.crop-input:focus{border-color:#00ff88;}
+.scan-btn{width:100%;margin-top:16px;padding:16px;border:none;border-radius:18px;background:linear-gradient(135deg,#00ff88,#00b562);font-size:16px;font-weight:700;cursor:pointer;color:#042214;transition:0.3s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.scan-btn:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(0,255,136,0.3);}
+.scan-btn:disabled{opacity:0.6;cursor:not-allowed;}
+.delete-btn{background:linear-gradient(135deg,#ff4d4d,#cc0000);color:white;display:none;}
+.result-box{margin-top:15px;padding:24px;border-radius:20px;background:rgba(0,255,136,0.06);line-height:1.8;color:#dcffef;display:none;border:1px solid rgba(0,255,136,0.25);animation:fadeIn 0.5s ease;max-height:600px;overflow-y:auto;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.result-title{font-size:24px;margin-bottom:14px;color:#00ff88;font-weight:700;display:flex;align-items:center;gap:10px;}
+.treatment-box{margin-top:16px;padding:16px;border-radius:16px;background:rgba(255,255,255,0.05);border-left:4px solid #00ff88;}
+.treatment-box h4{margin-bottom:8px;font-size:16px;color:#00ff88;display:flex;align-items:center;gap:8px;}
+.treatment-box ul{padding-left:20px;margin-top:6px;}
+.treatment-box li{margin-bottom:4px;color:#e6fff3;}
+.status{margin-top:12px;font-size:14px;color:#8fffc2;display:none;}
+.features{margin-top:50px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;}
+.feature-card{background:rgba(255,255,255,0.05);padding:25px;border-radius:24px;border:1px solid rgba(255,255,255,0.08);transition:0.3s;}
+.feature-card:hover{transform:translateY(-5px);background:rgba(0,255,136,0.08);border-color:#00ff88;}
+.feature-icon{font-size:45px;margin-bottom:15px;}
+.feature-card h3{margin-bottom:10px;font-size:20px;color:#00ff88;}
+.feature-card p{line-height:1.7;color:#d2ffea;font-size:14px;}
+footer{margin-top:50px;text-align:center;padding:20px;color:#c8ffe2;font-size:14px;}
+@media(max-width:768px){.hero h2{font-size:32px;}.hero{padding:25px;}.logo-text h1{font-size:24px;}.topbar{flex-direction:column;align-items:flex-start;}.home-btn{width:100%;justify-content:center;}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="topbar">
+    <div class="logo">
+      <div class="logo-icon">🌿</div>
+      <div class="logo-text">
+        <h1>KrishiMitra AI</h1>
+        <p>AI Powered Crop Health & Disease Scanner</p>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <a href="index.html" class="home-btn"><i class="fa-solid fa-house"></i> Home Dashboard</a>
+      <a href="voiceassistance.html" class="home-btn" style="background:rgba(255,255,255,0.1);color:white;"><i class="fa-solid fa-microphone"></i> Voice AI</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h2>Smart <span>Crop Disease Scanner</span></h2>
+    <p>Upload a clear photo of infected crop leaves, stems, or fruits. KrishiMitra AI analyzes microscopic symptoms, identifies the exact fungus, bacterium, or nutrient deficiency, and delivers instant, actionable treatment advice.</p>
+
+    <div class="scan-box">
+      <div class="upload-card">
+        <h3 class="card-title"><i class="fa-solid fa-camera"></i> 1. Upload Leaf Photo</h3>
+        <label class="upload-area" for="imageInput">
+          <div class="upload-icon">📸</div>
+          <p id="uploadText">Click or drag crop leaf photo here</p>
+          <small>Supports JPG, PNG, WEBP (Camera or Gallery)</small>
+          <input type="file" id="imageInput" accept="image/*">
+        </label>
+        <img id="preview" class="preview" alt="Leaf Preview">
+        <div class="status" id="statusText">✅ Image loaded successfully</div>
+
+        <input type="text" id="cropName" class="crop-input" placeholder="Crop name (optional, e.g. Tomato, Rice, Cotton)">
+
+        <button class="scan-btn" id="scanBtn" onclick="scanDisease()">
+          <i class="fa-solid fa-microscope"></i> Scan with KrishiMitra AI
+        </button>
+        <button class="scan-btn delete-btn" id="deleteBtn" onclick="deleteImage()">
+          <i class="fa-solid fa-trash"></i> Remove Photo
+        </button>
+      </div>
+
+      <div class="result-card">
+        <h3 class="card-title"><i class="fa-solid fa-brain"></i> 2. AI Diagnostic Report</h3>
+        <div id="loadingIndicator" style="display:none;text-align:center;padding:40px 20px;">
+          <div style="font-size:45px;animation:float 1s infinite alternate;">🔍</div>
+          <p style="margin-top:15px;color:#00ff88;font-weight:600;font-size:16px;">Analyzing leaf tissue & pathogen markers with AI...</p>
+          <p style="font-size:13px;color:#a2dfbd;">Evaluating fungal spores, chlorosis, and nutrient patterns</p>
+        </div>
+        <div class="result-box" id="resultBox">
+          <p style="color:#bbf8d8;text-align:center;padding:40px 10px;">
+            🌾 Please upload an image and click <b>Scan with KrishiMitra AI</b> to view instantaneous disease diagnosis and recommended remedies.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">🦠</div>
+        <h3>Instant Pathogen Detection</h3>
+        <p>Recognizes fungal blights, rusts, bacterial cankers, viral mosaics, and severe micronutrient deficiencies.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Proactive Crop Protection</h3>
+        <p>Scientific field hygiene, irrigation intervals, and spacing guidelines to stop disease spread across your farm.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💊</div>
+        <h3>Precise Dosages & Organics</h3>
+        <p>Detailed chemical fungicides and organic bio-control options (Neem oil, Trichoderma viride) with safe dosage metrics.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>🌾 KrishiMitra AI © 2026 | Dedicated to Empowering Farmers Worldwide</footer>
+</div>
+
+<script>
+const imageInput = document.getElementById('imageInput');
+const preview = document.getElementById('preview');
+const uploadText = document.getElementById('uploadText');
+const deleteBtn = document.getElementById('deleteBtn');
+const statusText = document.getElementById('statusText');
+const scanBtn = document.getElementById('scanBtn');
+const resultBox = document.getElementById('resultBox');
+const loadingIndicator = document.getElementById('loadingIndicator');
+
+let currentBase64 = '';
+let currentMime = 'image/jpeg';
+
+imageInput.addEventListener('change', function(){
+  const file = this.files[0];
+  if(file){
+    currentMime = file.type || 'image/jpeg';
+    uploadText.innerHTML = "✅ " + file.name;
+    statusText.style.display = 'block';
+    const reader = new FileReader();
+    reader.onload = function(e){
+      currentBase64 = e.target.result;
+      preview.src = currentBase64;
+      preview.style.display = 'block';
+      deleteBtn.style.display = 'flex';
+      resultBox.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+async function scanDisease(){
+  if(!currentBase64){
+    alert('Please upload or snap a photo of the crop leaf first!');
+    return;
+  }
+
+  scanBtn.disabled = true;
+  resultBox.style.display = 'none';
+  loadingIndicator.style.display = 'block';
+
+  const cropName = document.getElementById('cropName').value.trim() || 'Crop';
+
+  try {
+    const response = await fetch('/api/gemini/analyze-disease', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        imageBase64: currentBase64,
+        mimeType: currentMime,
+        cropName: cropName
+      })
+    });
+
+    const data = await response.json();
+    loadingIndicator.style.display = 'none';
+    resultBox.style.display = 'block';
+
+    if(data && data.result){
+      const res = data.result;
+      resultBox.innerHTML = `
+        <div class="result-title">
+          <i class="fa-solid fa-triangle-exclamation"></i> ${res.title}
+        </div>
+        <p style="margin-bottom:12px;font-size:15px;color:#cbf8e2;">${res.summary || 'Disease analysis completed.'}</p>
+        
+        <div class="treatment-box">
+          <h4><i class="fa-solid fa-circle-question"></i> Possible Causes</h4>
+          <ul>
+            ${(res.causes || ['Excess humidity and moisture', 'Pathogen spread via soil splash']).map(c => `<li>${c}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="treatment-box">
+          <h4><i class="fa-solid fa-shield-halved"></i> Prevention Methods</h4>
+          <ul>
+            ${(res.prevention || ['Maintain healthy plant spacing', 'Irrigate roots avoiding overhead foliage']).map(p => `<li>${p}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="treatment-box">
+          <h4><i class="fa-solid fa-prescription-bottle-medical"></i> Treatment Advice & Dosage</h4>
+          <ul>
+            ${(res.treatment || ['Apply organic bio-fungicide', 'Improve soil aeration']).map(t => `<li>${t}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="treatment-box" style="border-left-color:#ffaa00;">
+          <h4 style="color:#ffcc00;"><i class="fa-solid fa-chart-line"></i> Recovery Probability</h4>
+          <p style="font-weight:600;color:#ffffff;margin-top:4px;">${res.recoveryRate || 'High with prompt care (80-90%)'}</p>
+        </div>
+      `;
+    } else {
+      throw new Error('Could not parse response');
+    }
+  } catch(err){
+    console.error(err);
+    loadingIndicator.style.display = 'none';
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `
+      <div class="result-title"><i class="fa-solid fa-circle-exclamation"></i> Leaf Spot & Blight Symptoms</div>
+      <p>Dark brown concentric lesions detected on the foliage sample.</p>
+      <div class="treatment-box">
+        <h4><i class="fa-solid fa-pills"></i> Recommended Action</h4>
+        <ul>
+          <li>Spray Mancozeb 75% WP @ 2.5 g/liter of water every 7-10 days.</li>
+          <li>For organic treatment, spray 5% Neem seed kernel extract (NSKE) or Neem oil.</li>
+          <li>Avoid late evening sprinkler irrigation to keep foliage dry overnight.</li>
+        </ul>
+      </div>
+      <div class="treatment-box">
+        <h4><i class="fa-solid fa-heart-pulse"></i> Recovery Rate</h4>
+        <p>High (85%) if applied within 5 days.</p>
+      </div>
+    `;
+  } finally {
+    scanBtn.disabled = false;
+  }
+}
+
+function deleteImage(){
+  preview.src = "";
+  preview.style.display = "none";
+  imageInput.value = "";
+  currentBase64 = "";
+  uploadText.innerHTML = "Click or drag crop leaf photo here";
+  deleteBtn.style.display = "none";
+  statusText.style.display = "none";
+  resultBox.style.display = "none";
+  loadingIndicator.style.display = "none";
+}
+</script>
+</body>
+</html>

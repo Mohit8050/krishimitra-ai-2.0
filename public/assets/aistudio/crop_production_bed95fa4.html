@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crop Production Guide - KrishiMitra AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);min-height:100vh;color:#e0e0e0;padding:20px;}
+.container{max-width:1050px;margin:0 auto;background:rgba(255,255,255,0.08);border-radius:24px;backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.1);padding:40px;box-shadow:0 20px 60px rgba(0,0,0,0.3);}
+header{text-align:center;margin-bottom:30px;padding-bottom:25px;border-bottom:2px solid rgba(76,175,80,0.3);position:relative;}
+header h1{font-size:42px;background:linear-gradient(135deg,#66bb6a,#81c784);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;}
+header p{font-size:16px;color:#a0d995;}
+.filter-tabs{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:30px;}
+.filter-tab{padding:8px 18px;border-radius:20px;border:1px solid rgba(76,175,80,0.4);background:rgba(76,175,80,0.1);color:#a0d995;font-weight:600;cursor:pointer;transition:0.2s;font-size:14px;}
+.filter-tab.active,.filter-tab:hover{background:#66bb6a;color:#04140d;}
+.crops-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-bottom:40px;}
+.crop-card{background:rgba(76,175,80,0.08);border:2px solid rgba(76,175,80,0.3);border-radius:18px;padding:24px;cursor:pointer;transition:0.3s;}
+.crop-card:hover{transform:translateY(-6px);background:rgba(76,175,80,0.15);border-color:rgba(76,175,80,0.6);box-shadow:0 15px 40px rgba(76,175,80,0.2);}
+.crop-icon{font-size:38px;margin-bottom:12px;}
+.crop-card h3{font-size:20px;color:#81c784;margin-bottom:8px;}
+.crop-card p{font-size:14px;color:#b0bec5;line-height:1.6;}
+.section{margin-top:35px;padding:28px;background:rgba(255,255,255,0.04);border-radius:18px;border-left:4px solid #66bb6a;}
+.section h2{font-size:24px;color:#81c784;margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+.section ul{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+.section li{background:rgba(76,175,80,0.06);padding:16px;border-radius:12px;border-left:3px solid #66bb6a;line-height:1.6;font-size:14px;}
+.highlight{color:#81c784;font-weight:700;}
+.nav-links{display:flex;justify-content:center;gap:15px;margin-top:40px;}
+.nav-link-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#66bb6a,#43a047);color:white;text-decoration:none;border-radius:14px;font-weight:600;transition:0.3s;}
+.nav-link-btn:hover{transform:scale(1.05);box-shadow:0 10px 25px rgba(76,175,80,0.4);}
+@media(max-width:768px){.container{padding:20px;}header h1{font-size:30px;}.crops-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🌾 Crop Production Guide</h1>
+    <p>Scientific cultivation manuals for rice, wheat, sugarcane, maize, cotton, and vegetables</p>
+  </header>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterSections('all', this)">All Crops</button>
+    <button class="filter-tab" onclick="filterSections('rice', this)">Rice</button>
+    <button class="filter-tab" onclick="filterSections('wheat', this)">Wheat</button>
+    <button class="filter-tab" onclick="filterSections('sugarcane', this)">Sugarcane</button>
+    <button class="filter-tab" onclick="filterSections('maize', this)">Maize</button>
+    <button class="filter-tab" onclick="filterSections('cotton', this)">Cotton</button>
+    <button class="filter-tab" onclick="filterSections('vegetables', this)">Vegetables</button>
+  </div>
+
+  <!-- Crop Cards Overview -->
+  <div class="crops-grid">
+    <div class="crop-card" onclick="scrollToCrop('rice')">
+      <div class="crop-icon">🍚</div>
+      <h3>Rice Farming</h3>
+      <p>High-yield paddy cultivation with puddling, transplanting, balanced NPK, and stem-borer management.</p>
+    </div>
+    <div class="crop-card" onclick="scrollToCrop('wheat')">
+      <div class="crop-icon">🌾</div>
+      <h3>Wheat Farming</h3>
+      <p>Timely winter sowing, crown-root irrigation stages, rust prevention, and harvesting moisture control.</p>
+    </div>
+    <div class="crop-card" onclick="scrollToCrop('sugarcane')">
+      <div class="crop-icon">🍬</div>
+      <h3>Sugarcane Farming</h3>
+      <p>Trench planting, ratoon management, high-sucrose varieties (Co-0238), and water conservation.</p>
+    </div>
+    <div class="crop-card" onclick="scrollToCrop('maize')">
+      <div class="crop-icon">🌽</div>
+      <h3>Maize Farming</h3>
+      <p>Multi-season hybrid corn production with fall armyworm prevention and optimum plant density.</p>
+    </div>
+    <div class="crop-card" onclick="scrollToCrop('cotton')">
+      <div class="crop-icon">🌿</div>
+      <h3>Cotton Farming</h3>
+      <p>Bt cotton management in black soils with IPM bollworm control and drip fertigation techniques.</p>
+    </div>
+    <div class="crop-card" onclick="scrollToCrop('vegetables')">
+      <div class="crop-icon">🥬</div>
+      <h3>Vegetable Farming</h3>
+      <p>Year-round horticulture with raised beds, trellising, nursery management, and pest deterrents.</p>
+    </div>
+  </div>
+
+  <!-- Detailed Sections -->
+  <div class="crop-section-block" id="rice">
+    <div class="section">
+      <h2><i class="fa-solid fa-seedling"></i> Rice Farming - Cultivation & Field Management</h2>
+      <ul>
+        <li><span class="highlight">Land Preparation:</span> Deep ploughing followed by 2-3 puddlings and leveling to sustain uniform standing water.</li>
+        <li><span class="highlight">Soil Type:</span> Alluvial clayey soils with pH 5.5 to 6.5 and high moisture holding capacity.</li>
+        <li><span class="highlight">Seedbed & Nursery:</span> 500 sq. meter nursery for 1 hectare field; sow treated seeds @ 25 kg/ha.</li>
+        <li><span class="highlight">Transplanting:</span> 20-25 day seedlings at 20x15 cm spacing with 2-3 seedlings per hill.</li>
+        <li><span class="highlight">Water Schedule:</span> Maintain 3-5 cm shallow standing water during tillering to panicle initiation.</li>
+        <li><span class="highlight">Nutrient Management:</span> 120:60:40 NPK kg/ha; apply Nitrogen in 3 splits (basal, tillering, panicle).</li>
+        <li><span class="highlight">Expected Yield:</span> 50-65 quintals/ha for improved hybrids; 35-45 quintals for Basmati varieties.</li>
+        <li><span class="highlight">Top Varieties:</span> IR-64, BPT-5204 (Samba Mahsuri), Pusa Basmati 1121, MTU-1010.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="crop-section-block" id="wheat">
+    <div class="section">
+      <h2><i class="fa-solid fa-wheat-awn"></i> Wheat Farming - High Yield Protocols</h2>
+      <ul>
+        <li><span class="highlight">Optimal Sowing Window:</span> 25th October to 15th November in North-Western plains.</li>
+        <li><span class="highlight">Seed Rate & Spacing:</span> 100-120 kg/ha using seed drills at 20-22 cm row distance.</li>
+        <li><span class="highlight">Critical Irrigation Stages:</span> Crown root initiation (21 days), tillering (45 days), flowering (85 days), and milk stage.</li>
+        <li><span class="highlight">Fertilizer Regimen:</span> 120:60:40 NPK kg/ha + 25 kg Zinc Sulfate/ha.</li>
+        <li><span class="highlight">Disease Control:</span> For yellow rust, spray Propiconazole 25% EC @ 1 ml/L at first appearance.</li>
+        <li><span class="highlight">Expected Yield:</span> 50-60 quintals/ha under irrigated conditions.</li>
+        <li><span class="highlight">Top Varieties:</span> HD-2967, HD-3086, PBW-550, DBW-187 (Karan Vandana), Sharbati.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="crop-section-block" id="sugarcane">
+    <div class="section">
+      <h2><i class="fa-solid fa-candy-cane"></i> Sugarcane Farming - Commercial Cash Crop</h2>
+      <ul>
+        <li><span class="highlight">Planting Season:</span> Autumn (Oct) or Spring (Feb-March); trench method with 90-120 cm row width.</li>
+        <li><span class="highlight">Sett Treatment:</span> Dip 2-budded setts in carbendazim (1g/L) for 15 minutes before furrow placement.</li>
+        <li><span class="highlight">Fertilizer:</span> 250:115:115 NPK kg/ha; split nitrogen over 3 months with 25 tons compost.</li>
+        <li><span class="highlight">Ratoon Management:</span> Stubble shaving, inter-row cultivation, and trash mulching saves 30% nitrogen.</li>
+        <li><span class="highlight">Expected Yield:</span> 80-110 tons/hectare with sugar recovery between 10.5% and 12.2%.</li>
+        <li><span class="highlight">Top Varieties:</span> Co-0238, Co-86032 (Nayana), Co-6304, Co-94012.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="crop-section-block" id="maize">
+    <div class="section">
+      <h2><i class="fa-solid fa-corn"></i> Maize Farming - Feed & Grain Management</h2>
+      <ul>
+        <li><span class="highlight">Seasons:</span> Kharif (June-July), Rabi (October-November), and Spring (January-February).</li>
+        <li><span class="highlight">Spacing:</span> 60 cm between rows and 20 cm between plants with 18-20 kg/ha hybrid seed.</li>
+        <li><span class="highlight">Pest Management:</span> Fall Armyworm (FAW) monitoring with pheromone traps; apply Emamectin Benzoate 5% SG @ 0.4 g/L.</li>
+        <li><span class="highlight">Fertilization:</span> 120:60:40 NPK kg/ha; apply 1/3 N + full P&K at planting; rest N at knee-high and tasseling.</li>
+        <li><span class="highlight">Expected Yield:</span> 60-75 quintals/ha with high starch hybrids.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="crop-section-block" id="cotton">
+    <div class="section">
+      <h2><i class="fa-solid fa-cloud"></i> Cotton Farming - Fiber & Textile Grade</h2>
+      <ul>
+        <li><span class="highlight">Soil & Climate:</span> Deep black cotton soil (Vertisols) with 600-1000 mm seasonal rainfall.</li>
+        <li><span class="highlight">Spacing:</span> 90x60 cm or 120x45 cm depending on canopy vigor and Bt hybrid type.</li>
+        <li><span class="highlight">Integrated Pest Management (IPM):</span> Grow castor or marigold border crops; install yellow sticky traps.</li>
+        <li><span class="highlight">Irrigation:</span> Critical at squaring, flowering, and boll development stages.</li>
+        <li><span class="highlight">Expected Yield:</span> 22-30 quintals/ha of seed cotton (Kapas).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="crop-section-block" id="vegetables">
+    <div class="section">
+      <h2><i class="fa-solid fa-carrot"></i> High-Value Vegetable Cultivation</h2>
+      <ul>
+        <li><span class="highlight">Tomatoes:</span> Raised beds with drip irrigation and silver-black plastic mulch; stake indeterminate hybrids.</li>
+        <li><span class="highlight">Chili & Capsicum:</span> Nursery raised seedlings; treat against leaf curl thrips with Neem oil 10,000 ppm.</li>
+        <li><span class="highlight">Onions:</span> Rabi crop sown in Nov, transplanted Jan; yields 250-350 quintals/ha with 4-month storability.</li>
+        <li><span class="highlight">Economics:</span> Generates ₹3-5 Lakhs/ha gross revenue with multi-cropping and staggered harvesting.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="nav-links">
+    <a href="organic.html" class="nav-link-btn"><i class="fa-solid fa-leaf"></i> Organic Farming Guide</a>
+    <a href="crop.html" class="nav-link-btn" style="background:#203a43;"><i class="fa-solid fa-calculator"></i> Crop Recommender</a>
+    <a href="index.html" class="nav-link-btn" style="background:#1b5e20;"><i class="fa-solid fa-house"></i> Home Dashboard</a>
+  </div>
+</div>
+
+<script>
+function filterSections(cat, btn){
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const blocks = document.querySelectorAll('.crop-section-block');
+  blocks.forEach(b => {
+    if(cat === 'all' || b.id === cat){
+      b.style.display = 'block';
+    } else {
+      b.style.display = 'none';
+    }
+  });
+}
+
+function scrollToCrop(id){
+  const el = document.getElementById(id);
+  if(el){
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+</script>
+</body>
+</html>

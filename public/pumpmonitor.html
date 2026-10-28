@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiMitra AI • Smart Pump Core & Sensor Telemetry</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#04070d;color:white;font-family:'Poppins',sans-serif;overflow-x:hidden;min-height:100vh;transition:0.4s;}
+body::before{content:"";position:fixed;width:100%;height:100%;background:radial-gradient(circle at top left,#00ffee15,transparent 30%),radial-gradient(circle at bottom right,#0066ff18,transparent 30%);z-index:-2;}
+body.danger{background:#140707;}
+.warning-popup{position:fixed;top:30px;right:-450px;background:linear-gradient(135deg,#ff2e2e,#c00);padding:18px 28px;border-radius:20px;font-weight:700;box-shadow:0 0 35px rgba(255,0,0,0.5);z-index:9999;transition:0.5s;display:flex;align-items:center;gap:12px;font-family:'Orbitron',sans-serif;letter-spacing:1px;}
+.warning-popup.show{right:30px;}
+.container{display:grid;grid-template-columns:320px 1fr 340px;gap:25px;padding:25px;min-height:100vh;}
+.panel{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(14px);border-radius:28px;padding:22px;box-shadow:0 0 25px rgba(0,255,255,0.05);display:flex;flex-direction:column;justify-content:space-between;}
+.panel h2{font-family:'Orbitron',sans-serif;font-size:20px;margin-bottom:20px;color:#00ffee;letter-spacing:2px;display:flex;align-items:center;gap:10px;}
+.log{background:#07131d;padding:12px 14px;border-radius:14px;margin-bottom:12px;font-size:13px;border-left:4px solid #00ffee;}
+.log span{color:#00ffee;font-weight:600;}
+.log.danger-log{border-left:4px solid #ff3b3b;background:#1a0d0d;color:#ff8080;}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
+.top-controls{display:flex;justify-content:space-between;width:100%;margin-bottom:20px;align-items:center;}
+.core-ring{width:320px;height:320px;border-radius:50%;border:10px solid rgba(0,255,255,0.1);display:flex;align-items:center;justify-content:center;position:relative;animation:rotate 30s linear infinite;box-shadow:0 0 30px rgba(0,255,255,0.2),0 0 90px rgba(0,150,255,0.15);transition:0.4s;}
+.core-ring::before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;border:3px dashed rgba(0,255,255,0.3);animation:rotateReverse 40s linear infinite;}
+.core-ring.danger{border-color:rgba(255,60,60,0.4);box-shadow:0 0 40px rgba(255,0,0,0.5),0 0 100px rgba(255,0,0,0.3);}
+.home-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:14px;background:linear-gradient(135deg,#00ffee,#0088ff);color:#04140d;text-decoration:none;font-weight:700;font-size:14px;box-shadow:0 0 20px rgba(0,255,255,0.3);transition:0.3s;}
+.home-btn:hover{transform:scale(1.05);}
+.core{width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,#00ffee33,#06121d);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 0 35px rgba(0,255,255,0.3),inset 0 0 25px rgba(0,255,255,0.2);transition:0.4s;}
+.core.danger{background:radial-gradient(circle,#ff3b3b55,#220909);box-shadow:0 0 50px rgba(255,0,0,0.5),inset 0 0 30px rgba(255,0,0,0.3);}
+.core h1{font-family:'Orbitron',sans-serif;font-size:52px;color:#00ffee;transition:0.4s;}
+.core h1.danger{color:#ff4d4d;animation:pulse 0.7s infinite;}
+.core p{font-size:14px;color:#ccc;margin-top:4px;letter-spacing:1px;}
+.ai-status{margin-top:16px;font-family:'Orbitron',sans-serif;font-size:13px;color:#00ffee;letter-spacing:2px;animation:flicker 1.5s infinite;}
+.pump-toggle-btn{margin-top:18px;padding:12px 30px;border-radius:24px;border:none;font-family:'Orbitron',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:0.3s;display:inline-flex;align-items:center;gap:10px;box-shadow:0 0 20px rgba(0,255,255,0.3);}
+.pump-toggle-btn.running{background:linear-gradient(135deg,#00ff88,#00b562);color:#042214;}
+.pump-toggle-btn.stopped{background:linear-gradient(135deg,#ff4d4d,#b30000);color:white;}
+.status-grid{margin-top:35px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;width:100%;max-width:650px;}
+.status-box{background:rgba(255,255,255,0.04);padding:18px;border-radius:20px;border:1px solid rgba(255,255,255,0.07);transition:0.3s;}
+.status-box:hover{transform:translateY(-4px);box-shadow:0 0 25px rgba(0,255,255,0.1);border-color:#00ffee;}
+.status-box h3{font-size:13px;color:#aaa;margin-bottom:8px;}
+.status-box h1{font-size:26px;font-family:'Orbitron',sans-serif;color:#00ffee;}
+.sensor{margin-bottom:20px;}
+.sensor-top{display:flex;justify-content:space-between;margin-bottom:8px;}
+.sensor-name{font-size:14px;color:#ddd;}
+.sensor-value{font-family:'Orbitron',sans-serif;color:#00ffee;transition:0.4s;font-size:14px;}
+.sensor-value.danger{color:#ff4d4d;animation:pulse 0.7s infinite;}
+.bar{height:10px;background:#0c1a26;border-radius:20px;overflow:hidden;}
+.fill{height:100%;background:linear-gradient(90deg,#00ffee,#0088ff);border-radius:20px;transition:0.4s;}
+.fill.danger{background:linear-gradient(90deg,#ff4d4d,#ff0000);}
+.alert{margin-top:20px;padding:16px;border-radius:18px;background:#200d0d;border:1px solid rgba(255,80,80,0.3);display:flex;gap:12px;align-items:flex-start;}
+.alert i{font-size:24px;color:#ff4d4d;animation:pulse 1s infinite;}
+.alert h3{margin-bottom:4px;color:#ff4d4d;font-size:16px;}
+.alert p{font-size:13px;color:#ddd;line-height:1.6;}
+.chart-box{margin-top:20px;height:180px;}
+@keyframes rotate{100%{transform:rotate(360deg);}}
+@keyframes rotateReverse{100%{transform:rotate(-360deg);}}
+@keyframes pulse{50%{opacity:0.4;}}
+@keyframes flicker{50%{opacity:0.6;}}
+@media(max-width:1100px){.container{grid-template-columns:1fr;}.center{order:-1;}.status-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="warning-popup" id="popup">
+  <i class="fa-solid fa-triangle-exclamation"></i> HIGH VOLTAGE SPIKE DETECTED!
+</div>
+
+<div class="container">
+  <!-- LEFT PANEL -->
+  <div class="panel">
+    <div>
+      <h2><i class="fa-solid fa-terminal"></i> AI TELEMETRY</h2>
+      <div class="log" id="log1"><span>[AI]</span> 3-Phase line voltage balanced at 220V</div>
+      <div class="log" id="log2"><span>[AI]</span> Residual leakage current below 5mA (Safe)</div>
+      <div class="log" id="log3"><span>[AI]</span> Winding temperature: 38°C (Normal range)</div>
+      <div class="log" id="log4"><span>[AI]</span> Ultrasonic flow rate: 420 L/min active</div>
+      <div class="log" id="log5"><span>[AI]</span> Intelligent dry-run cutoff protection armed</div>
+      <div class="log danger-log" id="dangerLog"><span>[STATUS]</span> Motor operating under nominal load</div>
+    </div>
+
+    <div class="alert">
+      <i class="fa-solid fa-shield-halved"></i>
+      <div>
+        <h3>Auto Trip Safety</h3>
+        <p>If voltage exceeds 228V or water flow collapses, motor auto-shuts off in 1.2s to prevent coil burnout.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENTER CORE -->
+  <div class="center">
+    <div class="top-controls">
+      <h2 style="font-family:'Orbitron',sans-serif;color:#00ffee;font-size:18px;">KRISHIMITRA IoT CORE</h2>
+      <a href="index.html" class="home-btn"><i class="fa-solid fa-house"></i> Home Dashboard</a>
+    </div>
+
+    <div class="core-ring" id="coreRing">
+      <div class="core" id="core">
+        <h1 id="mainVoltage">220V</h1>
+        <p>SMART PUMP</p>
+        <div class="ai-status" id="coreStatus">AI SUPERVISED</div>
+      </div>
+    </div>
+
+    <button class="pump-toggle-btn running" id="pumpToggle" onclick="togglePump()">
+      <i class="fa-solid fa-power-off"></i> PUMP: RUNNING
+    </button>
+
+    <div class="status-grid">
+      <div class="status-box">
+        <h3>Motor Health Index</h3>
+        <h1 id="health">98%</h1>
+      </div>
+      <div class="status-box">
+        <h3>Discharge Flow</h3>
+        <h1 id="flowText">ACTIVE</h1>
+      </div>
+      <div class="status-box">
+        <h3>Ground Leakage</h3>
+        <h1 id="leakText">0.02 mA</h1>
+      </div>
+      <div class="status-box">
+        <h3>Failure Risk Probability</h3>
+        <h1 id="prediction">6%</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT SENSORS PANEL -->
+  <div class="panel">
+    <div>
+      <h2><i class="fa-solid fa-microchip"></i> LIVE SENSORS</h2>
+
+      <div class="sensor">
+        <div class="sensor-top">
+          <div class="sensor-name">Line Voltage (220V Standard)</div>
+          <div class="sensor-value" id="voltageText">220V</div>
+        </div>
+        <div class="bar"><div class="fill" id="voltageFill" style="width:65%;"></div></div>
+      </div>
+
+      <div class="sensor">
+        <div class="sensor-top">
+          <div class="sensor-name">Motor Current Draw</div>
+          <div class="sensor-value" id="currentText">4.8 A</div>
+        </div>
+        <div class="bar"><div class="fill" style="width:50%;"></div></div>
+      </div>
+
+      <div class="sensor">
+        <div class="sensor-top">
+          <div class="sensor-name">Magnetic Field Flux</div>
+          <div class="sensor-value" id="fluxText">1.2 Tesla</div>
+        </div>
+        <div class="bar"><div class="fill" style="width:40%;"></div></div>
+      </div>
+
+      <div class="sensor">
+        <div class="sensor-top">
+          <div class="sensor-name">Water Line Pressure</div>
+          <div class="sensor-value" id="pressureText">2.8 Bar</div>
+        </div>
+        <div class="bar"><div class="fill" style="width:70%;"></div></div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <canvas id="chart"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+let isPumpRunning = true;
+const chartData = [218, 220, 221, 219, 222, 220];
+const chartLabels = ['-25s', '-20s', '-15s', '-10s', '-5s', 'Now'];
+
+const ctx = document.getElementById('chart').getContext('2d');
+const myChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: chartLabels,
+    datasets: [{
+      label: 'Voltage (V)',
+      data: chartData,
+      borderColor: '#00ffee',
+      backgroundColor: 'rgba(0, 255, 238, 0.15)',
+      tension: 0.35,
+      borderWidth: 2,
+      pointRadius: 3,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#00ffee', font: { family: 'Orbitron', size: 10 } } }
+    },
+    scales: {
+      x: { ticks: { color: '#aaa', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+      y: { min: 200, max: 240, ticks: { color: '#aaa', font: { size: 9 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+    }
+  }
+});
+
+function togglePump(){
+  isPumpRunning = !isPumpRunning;
+  const btn = document.getElementById("pumpToggle");
+  const core = document.getElementById("core");
+  const mainVoltage = document.getElementById("mainVoltage");
+  const coreStatus = document.getElementById("coreStatus");
+  const flowText = document.getElementById("flowText");
+
+  if(isPumpRunning){
+    btn.className = "pump-toggle-btn running";
+    btn.innerHTML = `<i class="fa-solid fa-power-off"></i> PUMP: RUNNING`;
+    coreStatus.innerText = "AI SUPERVISED";
+    flowText.innerText = "ACTIVE";
+    mainVoltage.innerText = "220V";
+  } else {
+    btn.className = "pump-toggle-btn stopped";
+    btn.innerHTML = `<i class="fa-solid fa-power-off"></i> PUMP: STOPPED`;
+    coreStatus.innerText = "STANDBY";
+    flowText.innerText = "OFFLINE";
+    mainVoltage.innerText = "0V";
+  }
+}
+
+// Dynamic Voltage simulation
+setInterval(() => {
+  if(!isPumpRunning) return;
+  const voltage = 215 + Math.floor(Math.random() * 18);
+  const mainVoltage = document.getElementById("mainVoltage");
+  const voltageText = document.getElementById("voltageText");
+  const voltageFill = document.getElementById("voltageFill");
+  const coreRing = document.getElementById("coreRing");
+  const core = document.getElementById("core");
+  const popup = document.getElementById("popup");
+  const dangerLog = document.getElementById("dangerLog");
+
+  mainVoltage.innerText = voltage + "V";
+  voltageText.innerText = voltage + "V";
+  voltageFill.style.width = Math.min(100, (voltage / 250) * 100) + "%";
+
+  // Update chart
+  chartData.shift();
+  chartData.push(voltage);
+  myChart.update();
+
+  if(voltage > 228){
+    popup.classList.add("show");
+    document.body.classList.add("danger");
+    coreRing.classList.add("danger");
+    core.classList.add("danger");
+    mainVoltage.classList.add("danger");
+    voltageText.classList.add("danger");
+    voltageFill.classList.add("danger");
+    dangerLog.className = "log danger-log";
+    dangerLog.innerHTML = `<span>[ALERT]</span> High voltage ${voltage}V detected! Surge suppressor active`;
+
+    setTimeout(() => {
+      popup.classList.remove("show");
+      document.body.classList.remove("danger");
+      coreRing.classList.remove("danger");
+      core.classList.remove("danger");
+      mainVoltage.classList.remove("danger");
+      voltageText.classList.remove("danger");
+      voltageFill.classList.remove("danger");
+      dangerLog.innerHTML = `<span>[STATUS]</span> Voltage stabilized at nominal level`;
+    }, 2800);
+  }
+}, 2200);
+
+// Routine Sensor fluctuations
+setInterval(() => {
+  if(!isPumpRunning) return;
+  document.getElementById("health").innerText = (95 + Math.floor(Math.random() * 5)) + "%";
+  document.getElementById("prediction").innerText = (4 + Math.floor(Math.random() * 5)) + "%";
+  document.getElementById("currentText").innerText = (4.6 + (Math.random() * 0.4)).toFixed(1) + " A";
+}, 3500);
+</script>
+</body>
+</html>

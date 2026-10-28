@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiMitra Store - Buy Farm Inputs & Equipment</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#f3f6f4;color:#1b4332;min-height:100vh;}
+.header{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:15px;padding:14px 24px;background:#1b5e20;color:white;box-shadow:0 4px 15px rgba(0,0,0,0.15);}
+.logo-area{display:flex;align-items:center;gap:12px;text-decoration:none;color:white;font-weight:700;font-size:20px;}
+.searchBox{flex:1;max-width:550px;position:relative;}
+.searchBox input{width:100%;padding:11px 40px 11px 18px;border:none;border-radius:25px;outline:none;font-size:14px;}
+.searchBox i{position:absolute;right:16px;top:13px;color:#666;}
+.header-actions{display:flex;align-items:center;gap:10px;}
+.home-link{color:white;text-decoration:none;font-weight:600;padding:8px 16px;border-radius:20px;background:rgba(255,255,255,0.15);font-size:14px;transition:0.2s;}
+.home-link:hover{background:rgba(255,255,255,0.25);}
+.cartBtn{background:#ff9800;border:none;padding:10px 18px;border-radius:25px;cursor:pointer;font-weight:700;color:white;display:flex;align-items:center;gap:8px;font-size:14px;transition:0.3s;}
+.cartBtn:hover{background:#f57c00;transform:translateY(-2px);}
+.filter-bar{display:flex;gap:10px;padding:14px 20px;overflow-x:auto;background:white;border-bottom:1px solid #e0e0e0;}
+.filter-btn{padding:7px 18px;border-radius:20px;border:1px solid #c8e6c9;background:#f9fbf9;color:#2e7d32;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:0.2s;}
+.filter-btn.active,.filter-btn:hover{background:#2e7d32;color:white;border-color:#2e7d32;}
+.container{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;padding:24px;}
+.card{background:white;border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,0.06);transition:0.3s;display:flex;flex-direction:column;justify-content:space-between;border:1px solid #edf2ee;}
+.card:hover{transform:translateY(-6px);box-shadow:0 12px 25px rgba(0,0,0,0.12);}
+.card img{width:100%;height:150px;object-fit:cover;border-radius:12px;background:#e8f5e9;}
+.card-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;background:#e8f5e9;color:#2e7d32;margin-top:10px;width:fit-content;}
+.title{font-weight:600;margin-top:6px;font-size:15px;color:#1b4332;}
+.price{color:#1b5e20;font-weight:700;font-size:18px;margin:6px 0;}
+.btn{width:100%;padding:10px;border:none;background:#2e7d32;color:white;border-radius:12px;cursor:pointer;font-weight:600;transition:0.2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn:hover{background:#1b5e20;}
+.cart{position:fixed;top:0;right:-400px;width:360px;height:100%;background:white;box-shadow:-5px 0 25px rgba(0,0,0,0.2);padding:24px;transition:0.4s;overflow-y:auto;z-index:200;display:flex;flex-direction:column;justify-content:space-between;}
+.cart.active{right:0;}
+.cart-header{display:flex;justify-content:space-between;align-items:center;padding-bottom:14px;border-bottom:2px solid #edf2ee;}
+.close-cart{background:none;border:none;font-size:22px;cursor:pointer;color:#666;}
+.cart-list{flex:1;overflow-y:auto;margin:15px 0;}
+.item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #edf2ee;}
+.qty-ctrls{display:flex;align-items:center;gap:8px;}
+.qtyBtn{width:26px;height:26px;border:none;border-radius:6px;background:#e8f5e9;color:#1b5e20;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.total-box{padding:14px;background:#e8f5e9;border-radius:14px;margin-bottom:12px;}
+.total{font-size:18px;font-weight:700;color:#1b5e20;}
+.checkoutBtn{width:100%;padding:14px;border:none;background:linear-gradient(135deg,#ff9800,#f57c00);color:white;border-radius:14px;cursor:pointer;font-size:16px;font-weight:700;transition:0.2s;}
+.checkoutBtn:hover{box-shadow:0 4px 15px rgba(255,152,0,0.4);}
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center;z-index:999;}
+.modal-content{background:white;border-radius:24px;padding:30px;max-width:440px;width:90%;box-shadow:0 15px 40px rgba(0,0,0,0.25);}
+.modal-content h3{color:#1b5e20;margin-bottom:15px;display:flex;align-items:center;gap:8px;}
+.modal-input{width:100%;padding:12px;margin-bottom:12px;border:1px solid #ccc;border-radius:10px;font-size:14px;}
+.floatingCart{position:fixed;bottom:25px;right:25px;background:#ff9800;color:white;padding:16px 20px;border-radius:50px;font-weight:700;box-shadow:0 8px 25px rgba(255,152,0,0.4);cursor:pointer;display:none;z-index:90;}
+@media(max-width:768px){.cartBtn{display:none;}.floatingCart{display:flex;align-items:center;gap:8px;}.container{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));padding:15px;gap:14px;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <a href="index.html" class="logo-area">
+    <span>🌾</span>
+    <span>KrishiMitra Store</span>
+  </a>
+
+  <div class="searchBox">
+    <input type="text" id="search" placeholder="Search certified seeds, organic fertilizers, pumps..." oninput="debouncedSearch()">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+
+  <div class="header-actions">
+    <a href="index.html" class="home-link"><i class="fa-solid fa-house"></i> Home</a>
+    <button class="cartBtn" onclick="toggleCart()">
+      <i class="fa-solid fa-cart-shopping"></i> Cart (<span id="count">0</span>)
+    </button>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterCat('All', this)">All Inputs</button>
+  <button class="filter-btn" onclick="filterCat('Seeds', this)">Certified Seeds</button>
+  <button class="filter-btn" onclick="filterCat('Fertilizers', this)">Fertilizers & Bio-Nutrients</button>
+  <button class="filter-btn" onclick="filterCat('Irrigation', this)">Irrigation & Pumps</button>
+  <button class="filter-btn" onclick="filterCat('Tools', this)">Tools & Equipment</button>
+</div>
+
+<div class="floatingCart" onclick="toggleCart()">
+  <i class="fa-solid fa-cart-shopping"></i> <span id="count2">0</span> Items
+</div>
+
+<div class="container" id="products"></div>
+
+<!-- Cart Drawer -->
+<div class="cart" id="cart">
+  <div>
+    <div class="cart-header">
+      <h2><i class="fa-solid fa-basket-shopping"></i> Your Farm Cart</h2>
+      <button class="close-cart" onclick="toggleCart()">&times;</button>
+    </div>
+    <div class="cart-list" id="cartItems"></div>
+  </div>
+
+  <div>
+    <div class="total-box">
+      <div style="font-size:13px;color:#555;">Subtotal with Farm Subsidy Applied</div>
+      <div class="total">Total: ₹<span id="total">0</span></div>
+    </div>
+    <button class="checkoutBtn" onclick="openCheckout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- Checkout Modal -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal-content">
+    <h3><i class="fa-solid fa-truck-fast"></i> Delivery Address</h3>
+    <p style="font-size:13px;color:#666;margin-bottom:15px;">Enter your delivery location for subsidized doorstep delivery.</p>
+    <input type="text" id="orderName" class="modal-input" placeholder="Farmer / Buyer Name">
+    <input type="tel" id="orderPhone" class="modal-input" placeholder="Mobile Number (10 digits)">
+    <input type="text" id="orderVillage" class="modal-input" placeholder="Village / Gram Panchayat">
+    <input type="text" id="orderPincode" class="modal-input" placeholder="Pincode">
+    <button class="checkoutBtn" onclick="completeOrder()">Confirm & Place Order</button>
+    <button onclick="closeCheckout()" style="width:100%;background:none;border:none;margin-top:10px;cursor:pointer;color:#777;font-weight:600;">Cancel</button>
+  </div>
+</div>
+
+<script>
+const products = [
+  { name: "Hybrid Rice Seeds (IR-64)", cat: "Seeds", price: 200, img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400" },
+  { name: "HD-2967 Wheat Seeds", cat: "Seeds", price: 180, img: "https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?w=400" },
+  { name: "Pioneer High-Yield Maize", cat: "Seeds", price: 220, img: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400" },
+  { name: "Organic Bio-Compost (50kg)", cat: "Fertilizers", price: 350, img: "https://images.unsplash.com/photo-1582515073490-39981397c445?w=400" },
+  { name: "Neem Cake Fertilizer", cat: "Fertilizers", price: 280, img: "https://images.unsplash.com/photo-1598887142487-8c2a0b7c0c6a?w=400" },
+  { name: "NPK 19-19-19 Soluble", cat: "Fertilizers", price: 420, img: "https://images.unsplash.com/photo-1615811361523-6c9f1c2f6f7a?w=400" },
+  { name: "Electric Sprayer Pump 16L", cat: "Tools", price: 1200, img: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=400" },
+  { name: "Drip Irrigation Kit (1 Acre)", cat: "Irrigation", price: 2500, img: "https://images.unsplash.com/photo-1587502536263-9298d2b2c2c2?w=400" },
+  { name: "Solar Powered Water Pump 3HP", cat: "Irrigation", price: 8500, img: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400" },
+  { name: "Agricultural Soil Testing Kit", cat: "Tools", price: 700, img: "https://images.unsplash.com/photo-1581090700227-4c4e0c6a6c6b?w=400" },
+  { name: "Digital Soil pH Meter", cat: "Tools", price: 450, img: "https://images.unsplash.com/photo-1581091870620-5c7f2d5f3c5c?w=400" },
+  { name: "Heavy Duty Garden Rake", cat: "Tools", price: 250, img: "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?w=400" },
+  { name: "Green Shade Net (50% block)", cat: "Tools", price: 900, img: "https://images.unsplash.com/photo-1598515213692-5f0f7f1b6c1a?w=400" },
+  { name: "Automatic Water Sprinkler", cat: "Irrigation", price: 1500, img: "https://images.unsplash.com/photo-1598887142487-8c2a0b7c0c6a?w=400" }
+];
+
+let cart = JSON.parse(localStorage.getItem("km_cart") || "[]");
+let currentCategory = "All";
+let searchTimeout;
+
+function renderProducts(list = products) {
+  const container = document.getElementById("products");
+  container.innerHTML = "";
+  if(list.length === 0){
+    container.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px;color:#777;">🔍 No agricultural products found matching your search.</div>`;
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  list.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <div>
+        <img loading="lazy" src="${p.img}" alt="${p.name}">
+        <div class="card-badge">${p.cat}</div>
+        <div class="title">${p.name}</div>
+      </div>
+      <div>
+        <div class="price">₹${p.price}</div>
+        <button class="btn" onclick="addToCart('${p.name}')">
+          <i class="fa-solid fa-plus"></i> Add to Cart
+        </button>
+      </div>
+    `;
+    fragment.appendChild(div);
+  });
+  container.appendChild(fragment);
+}
+
+function filterCat(cat, btn) {
+  currentCategory = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const term = document.getElementById("search").value.toLowerCase();
+  const filtered = products.filter(p => {
+    const matchCat = currentCategory === "All" || p.cat === currentCategory;
+    const matchTerm = p.name.toLowerCase().includes(term) || p.cat.toLowerCase().includes(term);
+    return matchCat && matchTerm;
+  });
+  renderProducts(filtered);
+}
+
+function debouncedSearch() {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(applyFilters, 250);
+}
+
+function addToCart(name) {
+  const item = cart.find(p => p.name === name);
+  const prod = products.find(p => p.name === name);
+  if(item) {
+    item.qty++;
+  } else {
+    cart.push({ ...prod, qty: 1 });
+  }
+  updateCart();
+}
+
+function updateCart() {
+  localStorage.setItem("km_cart", JSON.stringify(cart));
+  let html = "";
+  let total = 0;
+  let count = 0;
+
+  if(cart.length === 0){
+    html = `<div style="text-align:center;color:#888;padding:30px 10px;">🛒 Your cart is currently empty.</div>`;
+  } else {
+    cart.forEach((p, idx) => {
+      total += p.price * p.qty;
+      count += p.qty;
+      html += `
+        <div class="item">
+          <div>
+            <b>${p.name}</b>
+            <div style="font-size:13px;color:#2e7d32;">₹${p.price} x ${p.qty} = ₹${p.price * p.qty}</div>
+          </div>
+          <div class="qty-ctrls">
+            <button class="qtyBtn" onclick="decQty(${idx})">-</button>
+            <span style="font-weight:600;min-width:18px;text-align:center;">${p.qty}</span>
+            <button class="qtyBtn" onclick="incQty(${idx})">+</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  document.getElementById("cartItems").innerHTML = html;
+  document.getElementById("total").innerText = total;
+  document.getElementById("count").innerText = count;
+  document.getElementById("count2").innerText = count;
+}
+
+function incQty(i) { cart[i].qty++; updateCart(); }
+function decQty(i) {
+  cart[i].qty--;
+  if(cart[i].qty <= 0) cart.splice(i, 1);
+  updateCart();
+}
+
+function toggleCart() {
+  document.getElementById("cart").classList.toggle("active");
+}
+
+function openCheckout() {
+  if(cart.length === 0) return alert("Your cart is empty! Add products first.");
+  document.getElementById("checkoutModal").style.display = "flex";
+}
+
+function closeCheckout() {
+  document.getElementById("checkoutModal").style.display = "none";
+}
+
+function completeOrder() {
+  const name = document.getElementById("orderName").value.trim();
+  const phone = document.getElementById("orderPhone").value.trim();
+  const village = document.getElementById("orderVillage").value.trim();
+
+  if(!name || !phone || !village) {
+    alert("Please enter Name, Phone, and Village address!");
+    return;
+  }
+
+  alert(`🎉 Order Confirmed!\n\nThank you, ${name}! Your order has been dispatched with doorstep delivery to ${village}. SMS confirmation sent to ${phone}.`);
+  cart = [];
+  updateCart();
+  closeCheckout();
+  toggleCart();
+}
+
+renderProducts();
+updateCart();
+</script>
+</body>
+</html>

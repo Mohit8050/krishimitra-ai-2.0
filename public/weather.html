@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiMitra AI - Live Farm Weather & Agronomic Forecast</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{min-height:100vh;background:linear-gradient(to bottom,#071b12,#0c2b1e,#13402d);overflow-x:hidden;color:#e8f5e9;}
+.nav-bar{display:flex;justify-content:space-between;align-items:center;padding:16px 28px;background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,255,136,0.15);}
+.nav-brand{font-size:20px;font-weight:700;color:#00ff88;text-decoration:none;display:flex;align-items:center;gap:10px;}
+.nav-actions{display:flex;align-items:center;gap:12px;}
+.nav-btn{padding:8px 16px;border-radius:14px;background:rgba(255,255,255,0.08);color:white;text-decoration:none;font-weight:600;font-size:13px;border:1px solid rgba(255,255,255,0.12);transition:0.2s;}
+.nav-btn:hover{background:rgba(0,255,136,0.2);color:#00ff88;border-color:#00ff88;}
+header{padding:30px 20px 10px;text-align:center;}
+header h1{font-size:38px;color:#00ff88;font-weight:800;letter-spacing:-0.5px;}
+header p{margin-top:6px;font-size:15px;color:#b2dfdb;}
+.liveTop{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:18px;}
+.liveCard{background:rgba(255,255,255,0.05);padding:14px 22px;border-radius:18px;border:1px solid rgba(255,255,255,0.08);min-width:200px;text-align:center;}
+.liveCard h3{color:#80cbc4;font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;}
+.liveCard p{font-size:18px;font-weight:700;color:white;font-family:monospace;}
+.searchBox{margin-top:25px;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;padding:0 15px;}
+.searchBox input{width:55%;max-width:440px;padding:13px 20px;border:1px solid rgba(0,255,136,0.3);outline:none;border-radius:30px;font-size:14px;background:rgba(0,0,0,0.4);color:white;transition:0.3s;}
+.searchBox input:focus{border-color:#00ff88;box-shadow:0 0 15px rgba(0,255,136,0.3);}
+.searchBtn{padding:13px 22px;border:none;border-radius:30px;font-size:14px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,#00ff88,#00b562);color:#042214;transition:0.3s;display:flex;align-items:center;gap:6px;}
+.gpsBtn{padding:13px 20px;border:1px solid #00ff88;border-radius:30px;font-size:13px;font-weight:600;cursor:pointer;background:rgba(0,255,136,0.15);color:#00ff88;transition:0.3s;display:flex;align-items:center;gap:6px;}
+.gpsBtn:hover{background:#00ff88;color:#042214;}
+.cityButtons{margin-top:20px;display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:0 20px;}
+.cityButtons button{padding:7px 15px;border:1px solid rgba(255,255,255,0.12);border-radius:20px;background:rgba(255,255,255,0.04);color:#c8e6c9;font-weight:500;font-size:12px;cursor:pointer;transition:0.2s;}
+.cityButtons button:hover,.cityButtons button.active{background:rgba(0,255,136,0.2);color:#00ff88;border-color:#00ff88;}
+.weatherBox{width:92%;max-width:850px;margin:25px auto;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(15px);padding:35px;border-radius:28px;box-shadow:0 15px 40px rgba(0,0,0,0.4);text-align:center;}
+.weatherIcon{font-size:75px;margin-bottom:8px;}
+.weatherBox h2{font-size:28px;color:white;margin-bottom:15px;}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:24px 0;}
+.stat-card{background:rgba(0,0,0,0.3);padding:18px 14px;border-radius:18px;border:1px solid rgba(255,255,255,0.07);}
+.stat-card h4{font-size:11px;color:#80cbc4;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;}
+.stat-card p{font-size:22px;font-weight:700;color:#00ff88;font-family:monospace;}
+.spraying-box{margin-top:20px;padding:22px;border-radius:20px;font-size:14px;line-height:1.7;background:rgba(0,255,136,0.07);border:1px solid rgba(0,255,136,0.3);text-align:left;}
+.forecast-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-top:25px;}
+.forecast-card{background:rgba(0,0,0,0.3);padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,0.06);font-size:12px;text-align:center;}
+.back{display:inline-flex;align-items:center;gap:8px;margin:30px auto;padding:12px 26px;border-radius:16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);text-decoration:none;color:white;font-weight:600;transition:0.3s;}
+.back:hover{background:rgba(0,255,136,0.2);color:#00ff88;}
+@media(max-width:768px){header h1{font-size:28px;}.searchBox input{width:100%;}}
+</style>
+</head>
+<body>
+<div class="nav-bar">
+  <a href="index.html" class="nav-brand">
+    <i class="fa-solid fa-cloud-sun-rain"></i> KrishiMitra Live Weather
+  </a>
+  <div class="nav-actions">
+    <a href="market.html" class="nav-btn"><i class="fa-solid fa-chart-line"></i> Mandi Rates</a>
+    <a href="index.html" class="nav-btn"><i class="fa-solid fa-house"></i> Dashboard</a>
+  </div>
+</div>
+
+<header>
+  <h1>🌦️ Real-Time Farm Weather Telemetry</h1>
+  <p>Live Open-Meteo Satellite Feed with Agricultural Spraying Window Index</p>
+  
+  <div class="liveTop">
+    <div class="liveCard">
+      <h3>🕒 Live Station Clock</h3>
+      <p id="clock">--:--:--</p>
+    </div>
+    <div class="liveCard">
+      <h3>📡 Telemetry Source</h3>
+      <p style="color:#00ff88;font-size:15px;">Open-Meteo API (Live)</p>
+    </div>
+  </div>
+</header>
+
+<div class="searchBox">
+  <input type="text" id="searchCity" placeholder="Type Indian district (e.g. Pune, Karnal, Indore, Guntur)..." onkeypress="if(event.key==='Enter') searchWeather()">
+  <button class="searchBtn" onclick="searchWeather()"><i class="fa-solid fa-magnifying-glass"></i> Check</button>
+  <button class="gpsBtn" onclick="useGPS()"><i class="fa-solid fa-location-crosshairs"></i> Use GPS</button>
+</div>
+
+<div class="cityButtons">
+  <button onclick="getWeather('davangere')">Davangere (KA)</button>
+  <button onclick="getWeather('gulbarga')">Kalaburagi (KA)</button>
+  <button onclick="getWeather('raichur')">Raichur (KA)</button>
+  <button onclick="getWeather('bidar')">Bidar (KA)</button>
+  <button onclick="getWeather('karnal')">Karnal (HR)</button>
+  <button onclick="getWeather('pune')">Pune (MH)</button>
+  <button onclick="getWeather('lasalgaon')">Lasalgaon (MH)</button>
+  <button onclick="getWeather('indore')">Indore (MP)</button>
+  <button onclick="getWeather('guntur')">Guntur (AP)</button>
+</div>
+
+<div class="weatherBox" id="weatherContent">
+  <div class="weatherIcon" id="icon">🌤️</div>
+  <h2 id="location">📍 Fetching live microclimate...</h2>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h4>Temperature</h4>
+      <p id="temp">-- °C</p>
+    </div>
+    <div class="stat-card">
+      <h4>Relative Humidity</h4>
+      <p id="humidity">-- %</p>
+    </div>
+    <div class="stat-card">
+      <h4>Wind Velocity</h4>
+      <p id="wind">-- km/h</p>
+    </div>
+    <div class="stat-card">
+      <h4>Rain Probability</h4>
+      <p id="rainProb">-- %</p>
+    </div>
+  </div>
+
+  <div class="spraying-box" id="sprayingBox">
+    <h3 style="color:#00ff88;font-size:16px;margin-bottom:6px;"><i class="fa-solid fa-spray-can"></i> Spraying Safety Window Index</h3>
+    <p id="sprayingAdvice">Calculating microclimate parameters for systemic pesticide and foliar nutrition uptake...</p>
+  </div>
+
+  <h3 style="margin-top:25px;text-align:left;font-size:14px;color:#80cbc4;text-transform:uppercase;letter-spacing:1px;">7-Day Agricultural Field Forecast</h3>
+  <div class="forecast-strip" id="forecastStrip"></div>
+</div>
+
+<center>
+  <a href="index.html" class="back">
+    <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+  </a>
+</center>
+
+<script>
+async function fetchWeatherData(url) {
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data && data.current) {
+      renderWeather(data);
+    }
+  } catch(e) {
+    console.error('Weather error:', e);
+  }
+}
+
+function renderWeather(data) {
+  document.getElementById("location").innerText = "📍 " + data.location;
+  document.getElementById("temp").innerText = data.current.temp + "°C";
+  document.getElementById("humidity").innerText = data.current.humidity + "%";
+  document.getElementById("wind").innerText = data.current.windSpeed + " km/h";
+  document.getElementById("rainProb").innerText = (data.current.rainProbability || 0) + "%";
+  document.getElementById("icon").innerText = data.current.icon || "🌤️";
+
+  const spray = data.sprayingAdvisory || {};
+  document.getElementById("sprayingAdvice").innerHTML = `<b>Status: ${spray.badge || 'Optimal'}</b><br>${spray.advice || 'Calm microclimate supports systemic absorption.'}`;
+
+  // 7-day forecast
+  let forecastHtml = "";
+  if (data.dailyForecast && data.dailyForecast.length > 0) {
+    data.dailyForecast.forEach(d => {
+      forecastHtml += `
+        <div class="forecast-card">
+          <div style="font-weight:600;color:#80cbc4;margin-bottom:4px;">${d.date.slice(-5)}</div>
+          <div style="font-size:24px;margin:4px 0;">${d.icon}</div>
+          <div style="font-weight:700;font-family:monospace;">${d.maxTemp}° / ${d.minTemp}°</div>
+          <div style="color:#81d4fa;font-size:11px;margin-top:2px;">🌧️ ${d.rainProb}%</div>
+        </div>
+      `;
+    });
+  }
+  document.getElementById("forecastStrip").innerHTML = forecastHtml;
+}
+
+function getWeather(city) {
+  fetchWeatherData(`/api/weather?city=${encodeURIComponent(city)}`);
+}
+
+function searchWeather() {
+  const city = document.getElementById("searchCity").value.trim();
+  if (city) {
+    fetchWeatherData(`/api/weather?city=${encodeURIComponent(city)}`);
+  }
+}
+
+function useGPS() {
+  if (!navigator.geolocation) {
+    alert("Geolocation not supported by your browser.");
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      fetchWeatherData(`/api/weather?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}`);
+    },
+    err => {
+      alert("Could not access GPS coordinates. Switched to Davangere APMC.");
+      getWeather('davangere');
+    }
+  );
+}
+
+function updateClock(){
+  const now = new Date();
+  document.getElementById("clock").innerText = now.toLocaleTimeString('en-IN');
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// Default load
+getWeather('davangere');
+</script>
+</body>
+</html>
